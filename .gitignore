@@ -1,0 +1,16 @@
+# Bağımlılıklar: npm install ile yeniden kurulur
+node_modules/
+
+# Gizli bilgiler: veritabanı şifresi
+.env
+
+# Build çıktısı
+dist/
+
+# Eski JSON veritabanı: gerçek kişisel veri içeriyor
+backend/json-db/
+
+# Kişisel notlar
+Notes.txt
+Backend.txt
+TodoLİst.txt

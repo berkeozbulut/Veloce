@@ -1,0 +1,66 @@
+@import './base.css';
+
+body,
+#app {
+    min-height: 100vh;
+    background: white;
+}
+
+.carousel-inner {
+    border-radius: 10px;
+}
+
+.sepet-icon {
+    position: fixed;
+    right: 30px;
+    top: 50%;
+    color: gray;
+    cursor: pointer;
+}
+.login-icon{
+    position: fixed;
+    right: 30px;
+    top: 20px;
+    cursor: pointer;
+}
+.navbar-custom {
+    background-color: white;
+}
+
+.navlink {
+    position: relative;
+    display: inline-block;
+    color: black;
+    padding: 10px;
+    text-decoration: none;
+}
+
+.navlink::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 3px;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: #991b1b;
+    transition: width 0.3s ease;
+}
+
+.navlink:hover::after {
+    width: calc(100% - 20px);
+}
+
+.about-metin {
+    margin-top: 50px;
+    width: 100%;
+    height: auto;
+    background-color: rgb(27, 101, 238);
+    padding: 30px;
+    border-radius: 20px;
+    color: white;
+}
+
+.harita {
+    margin-top: 20px;
+}
