@@ -32,7 +32,7 @@
                 <td><input class="form-control" type="text" v-model="user.u_firstName"></td>
                 <td><input class="form-control" type="text" v-model="user.u_lastName"></td>
                 <td><input class="form-control" type="text" v-model="user.u_email"></td>
-                <td><input class="form-control" type="password" v-model="user.u_pass"></td>
+                <td><input class="form-control" type="password" placeholder="Yeni şifre (boş = değişmez)" v-model="user.u_pass"></td>
                 <td><input type="date" class="form-control" v-model="user.u_birthdate"></td>
                 <td><select class="form-select mb-4" v-model="user.u_role">
                         <option value=0>Kullanıcı</option>

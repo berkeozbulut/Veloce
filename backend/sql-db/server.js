@@ -5,8 +5,6 @@ const cors = require("cors");
 
 const app = express();
 
-
-
 app.use(cors());
 
 const db = require("./db"); // db.js dosyamızı import ettik 
@@ -29,6 +27,9 @@ const upload = multer({
 // uploads klasörünü dışarı aç: http://localhost:3001/uploads/dosya.png
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(express.json());
+
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 
 // ! Part of AdminProducts
 
@@ -174,7 +175,7 @@ app.delete("/api/messages/:id", async (req, res) => {
 //? List USERS - SQL sorgu : Select 
 app.get("/api/users", async (req, res) => {
     try {
-        const [rows] = await db.query("SELECT * FROM users ORDER BY u_id ASC");
+        const [rows] = await db.query("SELECT u_id, u_firstName, u_lastName,u_email,u_birthdate,u_role FROM users ORDER BY u_id ASC");
         res.status(200).json(rows);
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -225,10 +226,14 @@ app.put("/api/users/:id/password", async (req, res) => {
         if (newPass.length < 8)
             return res.status(400).json({ error: "Yeni şifre en az 8 karakter olmalı" });
 
-        const [rows] = await db.query("SELECT u_id FROM users WHERE u_id=? AND u_pass=?", [id, currentPass]);
-        if (rows.length === 0) return res.status(401).json({ error: "Mevcut şifre hatalı" });
+        const [rows] = await db.query("SELECT u_pass FROM users WHERE u_id=?", [id,]);
+        if (rows.length === 0) return res.status(404).json({ error: "Kullanıcı Bulunamadı" });
 
-        await db.query("UPDATE users SET u_pass=? WHERE u_id=?", [newPass, id]);
+        const match = await bcrypt.compare(currentPass, rows[0].u_pass);
+        if (!match) return res.status(401).json({ error: "Mevcut şifre hatalı" })
+        const hashedPass = await bcrypt.hash(newPass, 10);
+
+        await db.query("UPDATE users SET u_pass=? WHERE u_id=?", [hashedPass, id]);
         res.status(200).json({ message: "Şifren güncellendi" });
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -239,9 +244,10 @@ app.post("/api/users", async (req, res) => {
     try {
         const { firstName, lastName, email, pass, birthdate, role } = req.body;
         if (!firstName || !lastName || !email || !pass || !birthdate) return res.status(400).json({ error: "Hatalı veri geldi" });
+        const hashedPass = await bcrypt.hash(pass, 10);
         const [result] = await db.query(
             "INSERT INTO users (u_firstName,u_lastName,u_email,u_pass,u_birthdate, u_role) VALUES (?,?,?,?,?,?)",
-            [firstName.trim(), lastName.trim(), email.trim(), pass, birthdate, role]
+            [firstName.trim(), lastName.trim(), email.trim(), hashedPass, birthdate, role]
         );
 
         // const [rows] = await db.query("SELECT * FROM products WHERE p_id=?", [result.id]);
@@ -262,14 +268,14 @@ app.put("/api/users/:id", async (req, res) => {
 
         if (isNaN(id)) return res.status(400).json({ error: "Geçersiz ID" });
 
-        if (!firstName || !lastName || !email || !pass || !birthdate) return res.status(400).json({ error: "Hata! Kullanıcı eklenemedi" });
-
+        if (!firstName || !lastName || !email || !birthdate) return res.status(400).json({ error: "Hata! Kullanıcı güncellenemedi" })
+        const hashedPass = pass ? await bcrypt.hash(pass, 10) : null
 
         const [result] = await db.query(
 
-            "UPDATE users SET u_firstName=?, u_lastName=?, u_email=?, u_pass=?, u_birthdate=?, u_role=?  WHERE u_id=?",
+            "UPDATE users SET u_firstName=?, u_lastName=?, u_email=?, u_pass=COALESCE(?, u_pass), u_birthdate=?, u_role=?  WHERE u_id=?",
 
-            [firstName.trim(), lastName.trim(), email.trim(), pass, birthdate, role, id]
+            [firstName.trim(), lastName.trim(), email.trim(), hashedPass, birthdate, role, id]
 
         );
 
@@ -451,11 +457,11 @@ app.post("/api/register", async (req, res) => {
         const { firstName, lastName, email, pass, birthdate } = req.body;
 
         if (!firstName || !lastName || !email || !pass || !birthdate) return res.status(400).json({ error: "Eksik ya da hatalı veri geldi" });
+        const hashedPass = await bcrypt.hash(pass, 10);
         const [result] = await db.query(
             "INSERT INTO users (u_firstName,u_lastName,u_email,u_pass,u_birthdate,u_role) VALUES (?,?,?,?,?,?)",
-            [firstName.trim(), lastName.trim(), email.trim(), pass, birthdate, 0]
+            [firstName.trim(), lastName.trim(), email.trim(), hashedPass, birthdate, 0]
         );
-
         res.status(201).json(firstName + " " + lastName + " adlı kullanıcı eklendi");
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -465,14 +471,24 @@ app.post("/api/register", async (req, res) => {
 app.post("/api/login", async (req, res) => {
     const { email, pass } = req.body;
     try {
-        const [rows] = await db.query("SELECT u_id,u_role,u_firstName FROM users WHERE u_email=? AND u_pass=?", [email, pass]);
+        if (!email || !pass) return res.status(400).json({ error: "E-posta ve parola zorunludur" });
+        const [rows] = await db.query(
+            "SELECT u_id,u_role,u_firstName,u_pass FROM users WHERE u_email=?", [email]
+        );
+        if (rows.length === 0) return res.status(401).json({ error: "E-posta veya parola hatalı" });
+        
+        const user = rows[0];
+        const match = await bcrypt.compare(pass, user.u_pass);
+        if (!match) return res.status(401).json({ error: "E-posta veya parola hatalı" });
 
-        if (rows.length > 0)
-            return res.status(200).json(rows);
-        else
-            return res.status(401).json({ error: "E-posta veya parola hatalı" })
+        const token = jwt.sign(
+            {id: user.u_id, role: user.u_role},
+            process.env.JWT_SECRET,
+            {expiresIn:"2h"}
+        );
+        res.status(200).json([{u_id: user.u_id, u_role: user.u_role, u_firstName: user.u_firstName, token}]);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({error: err.message});
     }
 });
 //? ADMIN PAGE- USERNAME

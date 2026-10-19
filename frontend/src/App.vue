@@ -379,6 +379,7 @@ export default {
                         sessionStorage.setItem("isLoggedIn", true);
                         sessionStorage.setItem("role", data[0].u_role);
                         sessionStorage.setItem("userId", data[0].u_id);
+                        sessionStorage.setItem("token", data[0].token);
                         if (data[0].u_role == 1)
                             router.push("/admin");
                         else
