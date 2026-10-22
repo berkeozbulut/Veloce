@@ -8,7 +8,7 @@ const app = express();
 app.use(cors());
 
 const db = require("./db"); // db.js dosyamızı import ettik 
-// ! Multer Yapısı
+// ? Multer Yapısı
 const multer = require("multer");
 const path = require("path");
 
@@ -32,6 +32,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
 //? Auth MiddleWares
+
 //? Is there a token, and is it valid?
 function verifyToken(req, res, next) {
     const authHeader = req.headers.authorization;
@@ -54,6 +55,17 @@ function isAdmin(req, res, next) {
     }
     next();
 }
+
+//! Kullanıcının kendisi mi yoksa admin mi ?
+
+function isSelfOrAdmin(req, res, next) {
+    const isSelf = Number(req.params.id) === Number(req.user.id);
+    const isAdminUser = Number(req.user.role) === 1;
+    if (isSelf || isAdminUser) return next();
+    return res.status(403).json({ error: "Bu işlem için yetkiniz yok" })
+
+}
+
 
 // ! Part of AdminProducts
 
@@ -206,7 +218,7 @@ app.get("/api/users", verifyToken, isAdmin, async (req, res) => {
     }
 });
 //? GET USER PROFILE - SQL sorgu : Select
-app.get("/api/users/:id", verifyToken, async (req, res) => {
+app.get("/api/users/:id", verifyToken, isSelfOrAdmin, async (req, res) => {
     try {
         const id = Number(req.params.id);
         if (isNaN(id)) return res.status(400).json({ error: "Geçersiz ID" });
@@ -221,7 +233,7 @@ app.get("/api/users/:id", verifyToken, async (req, res) => {
     }
 });
 //? UPDATE USER PROFILE - PUT - SQL sorgu : UPDATE
-app.put("/api/users/:id/profile", verifyToken, async (req, res) => {
+app.put("/api/users/:id/profile", verifyToken, isSelfOrAdmin, async (req, res) => {
     try {
         const id = Number(req.params.id);
         const { firstName, lastName, email, birthdate } = req.body;
@@ -240,7 +252,7 @@ app.put("/api/users/:id/profile", verifyToken, async (req, res) => {
     }
 });
 //? CHANGE USER PASSWORD - PUT - SQL sorgu : SELECT + UPDATE
-app.put("/api/users/:id/password", verifyToken, async (req, res) => {
+app.put("/api/users/:id/password", verifyToken, isSelfOrAdmin, async (req, res) => {
     try {
         const id = Number(req.params.id);
         const { currentPass, newPass } = req.body;
@@ -314,7 +326,7 @@ app.put("/api/users/:id", verifyToken, isAdmin, async (req, res) => {
 
 });
 //? Delete USERS - SQL sorgu : DELETE
-app.delete("/api/users/:id", verifyToken, async (req, res) => {
+app.delete("/api/users/:id", verifyToken, isSelfOrAdmin, async (req, res) => {
     try {
         const id = Number(req.params.id);
         const [result] = await db.query("DELETE FROM users WHERE u_id=?",
@@ -340,7 +352,7 @@ app.get("/api/orders", verifyToken, isAdmin, async (req, res) => {
 });
 
 //? List USER ORDERS - sql sorgu: Select 
-app.get("/api/orders/user/:id", verifyToken, async (req, res) => {
+app.get("/api/orders/user/:id", verifyToken, isSelfOrAdmin, async (req, res) => {
     try {
         const id = Number(req.params.id);
         if (isNaN(id)) return res.status(400).json({ error: "Geçersiz ID" });
@@ -352,7 +364,7 @@ app.get("/api/orders/user/:id", verifyToken, async (req, res) => {
 
 });
 //? USER DASHBOARD SUMMARY - SQL sorgu : COUNT, SUM, LIMIT
-app.get("/api/orders/user/:id/summary", verifyToken, async (req, res) => {
+app.get("/api/orders/user/:id/summary", verifyToken, isSelfOrAdmin, async (req, res) => {
     try {
         const id = Number(req.params.id);
         if (isNaN(id)) return res.status(400).json({ error: "Geçersiz ID" });
@@ -517,7 +529,7 @@ app.post("/api/login", async (req, res) => {
 });
 //? ADMIN PAGE- USERNAME
 app.post("/api/getUsername", verifyToken, async (req, res) => {
-    const { id } = req.body;
+    const id = req.user.id;
     try {
         const [rows] = await db.query("SELECT u_firstName FROM users WHERE u_id=?", [id]);
         if (rows.length > 0)
