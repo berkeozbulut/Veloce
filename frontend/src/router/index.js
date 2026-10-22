@@ -11,6 +11,8 @@ import Compare from '@/views/Compare.vue'
 import Checkout from '@/views/Checkout.vue'
 import User from '@/views/User.vue'
 import Forbidden from '@/views/403.vue'
+import { clearSession } from '@/utils/auth'
+
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -80,26 +82,49 @@ const router = createRouter({
     ],
 })
 
-router.beforeEach((to, from, next) => { //kullanıcı hangi sayfaya gitmek isterse istesin önce burası çalışır.
+router.beforeEach(async (to) => { // kullanıcı hangi sayfaya gitmek isterse istesin önce burası çalışır
 
-    const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+    if (!to.meta.requiresAuth) return true; // korumasız sayfa → geç
 
-    const role = sessionStorage.getItem("role"); // "admin" | "user"
+    const token = sessionStorage.getItem("token");
+    if (!token) return "/"; // giriş yapılmamış → ana sayfa
 
-    if (to.meta.requiresAuth && !isLoggedIn) { //Gidilen sayfa korumalı mı? ve Kullanıcı giriş yapmamış mı?
-
-       return next("/"); // login sayfasına at. izin yok.
-
+    try {
+        const res = await fetch("http://localhost:3001/api/me", {
+            headers: { Authorization: "Bearer " + token }
+        });
+        if (!res.ok) { // token geçersiz ya da süresi dolmuş
+            clearSession();
+            return "/";
+        }
+        const me = await res.json();
+        if (!to.meta.roles.includes(String(me.role))) return "/403"; // rol uymuyor
+        return true; // her şey tamam → geç
+    } catch (e) {
+        return "/"; // backend'e ulaşılamadı
     }
-
-    if (to.meta.roles && !to.meta.roles.includes(role)) {
-
-        return next("/403"); // yetkisiz sayfa (yoksa)
-
-    }
-
-    next();
-
 });
+
+// router.beforeEach((to, from, next) => { //kullanıcı hangi sayfaya gitmek isterse istesin önce burası çalışır.
+
+//     const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+
+//     const role = sessionStorage.getItem("role"); // "admin" | "user"
+
+//     if (to.meta.requiresAuth && !isLoggedIn) { //Gidilen sayfa korumalı mı? ve Kullanıcı giriş yapmamış mı?
+
+//        return next("/"); // login sayfasına at. izin yok.
+
+//     }
+
+//     if (to.meta.roles && !to.meta.roles.includes(role)) {
+
+//         return next("/403"); // yetkisiz sayfa (yoksa)
+
+//     }
+
+//     next();
+
+// });
 
 export default router

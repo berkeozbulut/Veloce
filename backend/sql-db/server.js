@@ -541,6 +541,10 @@ app.post("/api/getUsername", verifyToken, async (req, res) => {
     }
 });
 
+app.get("/api/me", verifyToken, (req, res) => {
+    res.status(200).json({id: req.user.id, role: req.user.role});
+});
+
 // !------------------------------------------
 
 // !Products Page
