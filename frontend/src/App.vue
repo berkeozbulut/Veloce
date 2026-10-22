@@ -20,7 +20,7 @@ import { Modal } from 'bootstrap/dist/js/bootstrap.min';
             <nav class="navbar navbar-expand-lg navbar-custom">
                 <div class="container-fluid">
                     <RouterLink class="navbar-brand" to="/">
-                        <img :src="logo" alt="Veloce Logo" style="height: 80px;">
+                        <img :src="logo" alt="Veloce Logo" class="logo-img">
                     </RouterLink>
                     <div class="d-flex align-items-center ms-auto order-lg-last">
                         <button type="button" class="navlink border-0 bg-transparent" @click="pageRouter()"

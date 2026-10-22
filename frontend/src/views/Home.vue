@@ -3,7 +3,7 @@
     <!-- content -->
     <main>
       <div class="row">
-        <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-body-tertiary">
+        <div class="position-relative overflow-hidden p-3 p-md-5 my-md-3 text-center bg-body-tertiary">
           <div class="col-md-6 p-lg-5 mx-auto my-5">
             <h1 class="display-3 fw-bold">VELOCE'a Hoşgeldin</h1>
             <h3 class="fw-normal text-muted mb-3 mt-5">Şimdi gel, burada neler
@@ -11,63 +11,42 @@
             </h3>
           </div>
         </div>
-        <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3" style="background-color: #991b1b;">
-          <div  class="text-bg me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden col-6" >
+        <div class="d-md-flex flex-md-equal gap-3 my-md-3 px-0">
+          <div class="bg-veloce pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
             <div class="my-3 py-3">
-              <h2 class="display-5 ">Araçları Karşılaştır</h2>
-              <br>
-              <p class="lead"> Merak ettiğin motosikletlerin güç, tork,
-                ağırlık ve performans gibi teknik özelliklerini
-                incele,
-                farklı modelleri yan yana karşılaştır. Hayalindeki
-                motoru keşfet veya favori modellerinin arasındaki
-                farkları gör.
-              </p>
+              <h2 class="display-5">Ekipmanını Seç</h2>
+              <p class="lead">Kasktan monta, eldivenden bota; sürüş tarzına uygun ekipmanları incele. Her ürünün stok
+                durumunu ve fiyatını anında gör, beğendiğini tek tıkla sepetine ekle.</p>
+              <RouterLink to="/product" class="btn btn-light mt-3">Ürünleri İncele</RouterLink>
             </div>
           </div>
-          <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden col-6">
+          <div class="bg-body-tertiary pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden ">
             <div class="my-3 py-3">
-              <h2 class="display-5">Ekipman Setlerini İncele</h2>
-              <p class="lead">Sürüşe hazır ol!
-                Motosiklet deneyimi doğru ekipmanla tamamlanır. Kask,
-                mont, eldiven, bot ve koruma ekipmanlarını
-                keşfet; ihtiyacına ve sürüş tarzına uygun seçenekleri
-                incele. Nereden başlayacağını bilmiyorsan,
-                hazırladığımız başlangıç ekipman setleriyle temel
-                ihtiyaçlarını kolayca belirle.
-              </p>
+              <h2 class="display-5">Hesabını Oluştur</h2>
+              <p class="lead">Üye ol, siparişlerini tek bir panelden yönet. Toplam harcamanı ve son siparişini özet
+                ekranında gör, kişisel bilgilerini dilediğin zaman güncelle.</p>
+              <button class="btn btn-dark mt-3" data-bs-toggle="modal" data-bs-target="#loginModal">Hemen Üye
+                Ol</button>
             </div>
           </div>
         </div>
 
-        <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
-          <div class="text-bg-dark me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden col-6">
+        <div class="d-md-flex flex-md-equal gap-3 my-md-3 px-0">
+          <div class="text-bg-dark pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
             <div class="my-3 py-3">
-              <h2 class="display-5 ">Topluluğa Katıl</h2>
-              <br>
-              <p class="lead">
-
-                Motosiklet tutkunlarıyla deneyimlerini paylaş, merak
-                ettiklerini sor ve farklı fikirleri keşfet.
-                Modellerden ekipmanlara, bakımdan sürüş deneyimlerine
-                kadar motosiklete dair her konuda konuşabileceğin
-                VELOCE topluluğunun bir parçası ol.
-
-              </p>
+              <h2 class="display-5">Siparişini Takip Et</h2>
+              <p class="lead">Siparişin hazırlanıyor mu, kargoda mı, teslim mi edildi? Hesabından her adımı takip et.
+                Üye olmadan da alışveriş yapabilirsin.</p>
+              <RouterLink to="/user" class="btn btn-light mt-3">Hesabıma Git</RouterLink>
             </div>
           </div>
-          <div style="background-color: #991b1b;" class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden col-6">
-            <div class="my-3 py-3" style="background-color: #991b1b;">
-              <h2 class="display-5">Motosiklet Dünyasını Keşfet</h2>
-              <p class="lead">
 
-                Motosiklet dünyasına dair rehberler, teknik bilgiler,
-                ekipman önerileri ve merak edilen konuları keşfet.
-                Yeni başlayanlardan deneyimli sürücülere kadar herkes
-                için hazırlanan içeriklerle bilgini
-                geliştir ve motosiklet dünyasını daha yakından tanı.
-
-              </p>
+          <div class="bg-veloce pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+            <div class="my-3 py-3">
+              <h2 class="display-5">Bize Ulaş</h2>
+              <p class="lead">Bir ürün hakkında sorun mu var, ya da önerin mi? İletişim formundan bize yaz; ekibimiz en
+                kısa sürede dönüş yapsın.</p>
+              <RouterLink to="/contact" class="btn btn-light mt-3">İletişime Geç</RouterLink>
             </div>
           </div>
         </div>
@@ -105,5 +84,9 @@ export default {
 </script>
 
 <style scoped>
-
+@media(min-width:768px) {
+  .flex-md-equal>* {
+    flex: 1;
+  }
+}
 </style>

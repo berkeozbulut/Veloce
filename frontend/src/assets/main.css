@@ -9,19 +9,32 @@ body,
 .carousel-inner {
     border-radius: 10px;
 }
-
+.bg-veloce{
+    background-color: #991b1b;
+    color: white;
+}
 .sepet-icon {
     position: fixed;
-    right: 30px;
+    right: 25px;
     top: 50%;
-    color: gray;
     cursor: pointer;
 }
-.login-icon{
-    position: fixed;
-    right: 30px;
-    top: 20px;
-    cursor: pointer;
+@media (max-width: 991px) {
+       .sepet-icon {
+           right: 10px;
+           background-color: white;
+           border-radius: 50%;
+           padding: 6px 10px;
+           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+       }
+   }
+.logo-img{
+    height: 50px;
+}
+@media (min-width: 992px) {
+    .logo-img{
+        height: 80px;
+    }
 }
 .navbar-custom {
     background-color: white;

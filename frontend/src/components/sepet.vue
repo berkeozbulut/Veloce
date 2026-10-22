@@ -5,7 +5,7 @@
       <a data-bs-toggle="offcanvas" href="#sepetBar">
         <i v-if="sepet.length" style="color: #991b1b;" class="bi bi-bag-check-fill fs-2"></i>
         <i v-else style="color: #991b1b;" class="bi bi-bag-dash fs-2"></i>
-        <span v-if="this.sepet.length > 0"
+        <span v-if="sepet.length > 0"
           class="badge rounded-pill bg-dark position-absolute top-0 start-100 translate-middle">{{ totalCount }}</span>
       </a>
     </div>
@@ -23,7 +23,7 @@
           <div class="col-3"><b>Adet:</b></div>
           <div class="col-4"><b>Fiyat:</b></div>
         </div>
-        <div class="row" v-for="value, index in sepet">
+        <div class="row" v-for="value, index in sepet" :key="value.p_id">
           <div class="col-4">{{ value.p_name }}</div>
           <div class="col-3">{{ value.quantity }} Adet</div>
           <div class="col-4">{{ value.p_price }} TL</div>
@@ -77,7 +77,7 @@ export default {
       this.$router.push('/checkout')
     },
     deleteItem(index) {
-      this.sepet.splice(2, 1);
+      this.sepet.splice(index, 1);
     }
   },
 
