@@ -1,13 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/Home.vue'
 import Blog from '@/views/Blog.vue'
-import Forum from '@/views/Forum.vue'
 import About from '@/views/About.vue'
 import faq from '@/views/faq.vue'
 import Contact from '@/views/Contact.vue'
 import Product from '@/views/Product.vue'
 import Admin from '@/views/Admin.vue'
-import Compare from '@/views/Compare.vue'
 import Checkout from '@/views/Checkout.vue'
 import User from '@/views/User.vue'
 import Forbidden from '@/views/403.vue'
@@ -26,11 +24,6 @@ const router = createRouter({
             path: '/blog',
             name: 'blog',
             component: Blog,
-        },
-        {
-            path: '/forum',
-            name: 'forum',
-            component: Forum,
         },
         {
             path: '/about',
@@ -68,11 +61,6 @@ const router = createRouter({
             name: 'user',
             component: User,
             meta: { requiresAuth: true, roles: ["0"] } // sayfaya giderken meta verisi ekledik.
-        },
-        {
-            path: '/compare',
-            name: 'compare',
-            component: Compare,
         },
         {
             path: '/checkout',

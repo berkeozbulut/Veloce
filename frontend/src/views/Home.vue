@@ -11,8 +11,8 @@
             </h3>
           </div>
         </div>
-        <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
-          <div class="text-bg-dark me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden col-6">
+        <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3" style="background-color: #991b1b;">
+          <div  class="text-bg me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden col-6" >
             <div class="my-3 py-3">
               <h2 class="display-5 ">Araçları Karşılaştır</h2>
               <br>
@@ -56,8 +56,8 @@
               </p>
             </div>
           </div>
-          <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden col-6">
-            <div class="my-3 py-3">
+          <div style="background-color: #991b1b;" class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden col-6">
+            <div class="my-3 py-3" style="background-color: #991b1b;">
               <h2 class="display-5">Motosiklet Dünyasını Keşfet</h2>
               <p class="lead">
 

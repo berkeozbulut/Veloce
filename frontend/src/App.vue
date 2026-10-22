@@ -47,10 +47,6 @@ import { Modal } from 'bootstrap/dist/js/bootstrap.min';
                             <li class="nav-item">
                                 <RouterLink class="navlink" to="/blog">Blog</RouterLink>
                             </li>
-
-                            <li class="nav-item">
-                                <RouterLink class="navlink" to="/compare">Motosiklet</RouterLink>
-                            </li>
                             <li class="nav-item">
                                 <RouterLink class="navlink" to="/product">Ürünlerimiz</RouterLink>
                             </li>
@@ -84,17 +80,8 @@ import { Modal } from 'bootstrap/dist/js/bootstrap.min';
                 <h5>Keşfet/İçerik</h5>
                 <ul class="list-unstyled text-small">
                     <li>
-                        <router-link to="/compare" class="link-secondary text-decoration-none" href="#">Teknik
-                            Özellikler</router-link>
-                    </li>
-                    <li>
-                        <router-link to="/compare" class="link-secondary text-decoration-none" href="#">Motosiklet
-                            Karşılaştır</router-link>
-                    </li>
-                    <li>
                         <router-link to="/" class="link-secondary text-decoration-none" href="#">Blog</router-link>
                     </li>
-
                 </ul>
             </div>
             <div class="col-6 col-md">
@@ -111,22 +98,6 @@ import { Modal } from 'bootstrap/dist/js/bootstrap.min';
                     <li>
                         <router-link to="/product" class="link-secondary text-decoration-none" href="#">Ekipman
                             Önerileri</router-link>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-6 col-md">
-                <h5>Topluluk</h5>
-                <ul class="list-unstyled text-small">
-                    <li>
-                        <router-link to="/" class="link-secondary text-decoration-none" href="#">Forum
-                            Kuralları</router-link>
-                    </li>
-                    <li>
-                        <router-link to="/" class="link-secondary text-decoration-none">Kulüpler</router-link>
-                    </li>
-                    <li>
-                        <router-link to="/contact" class="link-secondary text-decoration-none">Katkıda Bulun/Yazı
-                            Gönder</router-link>
                     </li>
                 </ul>
             </div>
