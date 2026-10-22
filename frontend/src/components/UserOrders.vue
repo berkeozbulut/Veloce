@@ -31,6 +31,7 @@ import { statusText } from '@/utils/orderStatus';
     </table>
 </template>
 <script>
+import { authFetch } from '@/utils/auth';
 export default {
     data() {
         return {
@@ -46,7 +47,7 @@ export default {
         async getMyOrders() {
             try {
                 const id = sessionStorage.getItem("userId");
-                const res = await fetch(`${this.baseUrl}/api/orders/user/${id}`);
+                const res = await authFetch(`${this.baseUrl}/api/orders/user/${id}`);
                 if (!res.ok) {
                     const errorData = await res.json();
                     throw new Error(errorData.error);

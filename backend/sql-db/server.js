@@ -31,10 +31,34 @@ app.use(express.json());
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
+//? Auth MiddleWares
+//? Is there a token, and is it valid?
+function verifyToken(req, res, next) {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        return res.status(401).json({ error: "Bu işlem için giriş yapmalısınız" })
+    }
+
+    const token = authHeader.split(" ")[1];
+    try {
+        req.user = jwt.verify(token, process.env.JWT_SECRET);
+        next();
+    } catch (err) {
+        return res.status(401).json({ error: "Oturumunuz geçersiz ya da süresi doldu, tekrar giriş yapın" });
+    }
+}
+
+function isAdmin(req, res, next) {
+    if (Number(req.user.role) !== 1) {
+        return res.status(403).json({ error: "Bu işlem için yetkiniz yok" });
+    }
+    next();
+}
+
 // ! Part of AdminProducts
 
 //? PRODUCTS LISTELE - SQL sorgu : Select 
-app.get("/api/products/:id", async (req, res) => {
+app.get("/api/products/:id", verifyToken, isAdmin, async (req, res) => {
     try {
         const id = Number(req.params.id);
         const [control] = await db.query("SELECT u_role FROM users WHERE u_id=?", [id])
@@ -51,7 +75,7 @@ app.get("/api/products/:id", async (req, res) => {
     }
 });
 //? PRODUCTS EKLE - POST - SQL sorgu : INSERT INTO
-app.post("/api/products", upload.single("image"), async (req, res) => {
+app.post("/api/products", verifyToken, isAdmin, upload.single("image"), async (req, res) => {
     try {
         const { name, stock, price, desc, u_id } = req.body;
         if (!name || stock === undefined || stock === "" || !(Number(price) > 0) || !desc || !desc.trim()) return res.status(400).json({ error: "Hatalı veri geldi" });
@@ -68,7 +92,7 @@ app.post("/api/products", upload.single("image"), async (req, res) => {
     }
 });
 //? PRODUCTS GÜNCELLE - PUT - SQL sorgu : UPDATE
-app.put("/api/products/:id", upload.single("image"), async (req, res) => {
+app.put("/api/products/:id", verifyToken, isAdmin, upload.single("image"), async (req, res) => {
 
     try {
 
@@ -98,7 +122,7 @@ app.put("/api/products/:id", upload.single("image"), async (req, res) => {
 
 });
 //? PRODUCTS SİL - SQL sorgu : DELETE
-app.delete("/api/products/:id", async (req, res) => {
+app.delete("/api/products/:id", verifyToken, isAdmin, async (req, res) => {
     try {
         const id = Number(req.params.id);
         const [result] = await db.query("DELETE FROM products WHERE p_id=?",
@@ -117,7 +141,7 @@ app.delete("/api/products/:id", async (req, res) => {
 // ! Part of AdminMessages
 
 //? GET MESSAGES - SQL sorgu : Select 
-app.get("/api/messages", async (req, res) => {
+app.get("/api/messages", verifyToken, isAdmin, async (req, res) => {
     try {
         const [rows] = await db.query("SELECT * FROM messages ORDER BY m_id DESC");
         res.status(200).json(rows);
@@ -126,7 +150,7 @@ app.get("/api/messages", async (req, res) => {
     }
 });
 //? MESSAGE UPDATE - PUT - SQL sorgu : UPDATE
-app.put("/api/messages/:id", async (req, res) => {
+app.put("/api/messages/:id", verifyToken, isAdmin, async (req, res) => {
 
     try {
 
@@ -155,7 +179,7 @@ app.put("/api/messages/:id", async (req, res) => {
 
 });
 //? DELETE MESSAGE - SQL sorgu : DELETE
-app.delete("/api/messages/:id", async (req, res) => {
+app.delete("/api/messages/:id", verifyToken, isAdmin, async (req, res) => {
     try {
         const id = Number(req.params.id);
         const [result] = await db.query("DELETE FROM messages WHERE m_id=?",
@@ -173,7 +197,7 @@ app.delete("/api/messages/:id", async (req, res) => {
 // ! Part of AdminUsers
 
 //? List USERS - SQL sorgu : Select 
-app.get("/api/users", async (req, res) => {
+app.get("/api/users", verifyToken, isAdmin, async (req, res) => {
     try {
         const [rows] = await db.query("SELECT u_id, u_firstName, u_lastName,u_email,u_birthdate,u_role FROM users ORDER BY u_id ASC");
         res.status(200).json(rows);
@@ -182,7 +206,7 @@ app.get("/api/users", async (req, res) => {
     }
 });
 //? GET USER PROFILE - SQL sorgu : Select
-app.get("/api/users/:id", async (req, res) => {
+app.get("/api/users/:id", verifyToken, async (req, res) => {
     try {
         const id = Number(req.params.id);
         if (isNaN(id)) return res.status(400).json({ error: "Geçersiz ID" });
@@ -197,7 +221,7 @@ app.get("/api/users/:id", async (req, res) => {
     }
 });
 //? UPDATE USER PROFILE - PUT - SQL sorgu : UPDATE
-app.put("/api/users/:id/profile", async (req, res) => {
+app.put("/api/users/:id/profile", verifyToken, async (req, res) => {
     try {
         const id = Number(req.params.id);
         const { firstName, lastName, email, birthdate } = req.body;
@@ -216,7 +240,7 @@ app.put("/api/users/:id/profile", async (req, res) => {
     }
 });
 //? CHANGE USER PASSWORD - PUT - SQL sorgu : SELECT + UPDATE
-app.put("/api/users/:id/password", async (req, res) => {
+app.put("/api/users/:id/password", verifyToken, async (req, res) => {
     try {
         const id = Number(req.params.id);
         const { currentPass, newPass } = req.body;
@@ -230,7 +254,7 @@ app.put("/api/users/:id/password", async (req, res) => {
         if (rows.length === 0) return res.status(404).json({ error: "Kullanıcı Bulunamadı" });
 
         const match = await bcrypt.compare(currentPass, rows[0].u_pass);
-        if (!match) return res.status(401).json({ error: "Mevcut şifre hatalı" })
+        if (!match) return res.status(400).json({ error: "Mevcut şifre hatalı" })
         const hashedPass = await bcrypt.hash(newPass, 10);
 
         await db.query("UPDATE users SET u_pass=? WHERE u_id=?", [hashedPass, id]);
@@ -240,7 +264,7 @@ app.put("/api/users/:id/password", async (req, res) => {
     }
 });
 //? Add USERS - POST - SQL sorgu : INSERT INTO
-app.post("/api/users", async (req, res) => {
+app.post("/api/users", verifyToken, isAdmin, async (req, res) => {
     try {
         const { firstName, lastName, email, pass, birthdate, role } = req.body;
         if (!firstName || !lastName || !email || !pass || !birthdate) return res.status(400).json({ error: "Hatalı veri geldi" });
@@ -258,7 +282,7 @@ app.post("/api/users", async (req, res) => {
 });
 
 //? Update USERS - PUT - SQL sorgu : UPDATE
-app.put("/api/users/:id", async (req, res) => {
+app.put("/api/users/:id", verifyToken, isAdmin, async (req, res) => {
 
     try {
 
@@ -290,7 +314,7 @@ app.put("/api/users/:id", async (req, res) => {
 
 });
 //? Delete USERS - SQL sorgu : DELETE
-app.delete("/api/users/:id", async (req, res) => {
+app.delete("/api/users/:id", verifyToken, async (req, res) => {
     try {
         const id = Number(req.params.id);
         const [result] = await db.query("DELETE FROM users WHERE u_id=?",
@@ -306,7 +330,7 @@ app.delete("/api/users/:id", async (req, res) => {
 // ! Part of AdminOrders
 
 //? List ORDERS - SQL sorgu : Select 
-app.get("/api/orders", async (req, res) => {
+app.get("/api/orders", verifyToken, isAdmin, async (req, res) => {
     try {
         const [rows] = await db.query("SELECT * FROM orders ORDER BY o_id DESC");
         res.status(200).json(rows);
@@ -316,7 +340,7 @@ app.get("/api/orders", async (req, res) => {
 });
 
 //? List USER ORDERS - sql sorgu: Select 
-app.get("/api/orders/user/:id", async (req, res) => {
+app.get("/api/orders/user/:id", verifyToken, async (req, res) => {
     try {
         const id = Number(req.params.id);
         if (isNaN(id)) return res.status(400).json({ error: "Geçersiz ID" });
@@ -328,7 +352,7 @@ app.get("/api/orders/user/:id", async (req, res) => {
 
 });
 //? USER DASHBOARD SUMMARY - SQL sorgu : COUNT, SUM, LIMIT
-app.get("/api/orders/user/:id/summary", async (req, res) => {
+app.get("/api/orders/user/:id/summary", verifyToken, async (req, res) => {
     try {
         const id = Number(req.params.id);
         if (isNaN(id)) return res.status(400).json({ error: "Geçersiz ID" });
@@ -390,7 +414,7 @@ app.post("/api/orders", async (req, res) => {
 });
 
 //? Update ORDERS - PUT - SQL sorgu : UPDATE
-app.put("/api/orders/:id", async (req, res) => {
+app.put("/api/orders/:id", verifyToken, isAdmin, async (req, res) => {
 
     try {
 
@@ -420,7 +444,7 @@ app.put("/api/orders/:id", async (req, res) => {
 
 });
 //? Delete ORDERS - SQL sorgu : DELETE
-app.delete("/api/orders/:id", async (req, res) => {
+app.delete("/api/orders/:id", verifyToken, isAdmin, async (req, res) => {
     try {
         const id = Number(req.params.id);
         const [result] = await db.query("DELETE FROM orders WHERE o_id=?",
@@ -476,23 +500,23 @@ app.post("/api/login", async (req, res) => {
             "SELECT u_id,u_role,u_firstName,u_pass FROM users WHERE u_email=?", [email]
         );
         if (rows.length === 0) return res.status(401).json({ error: "E-posta veya parola hatalı" });
-        
+
         const user = rows[0];
         const match = await bcrypt.compare(pass, user.u_pass);
         if (!match) return res.status(401).json({ error: "E-posta veya parola hatalı" });
 
         const token = jwt.sign(
-            {id: user.u_id, role: user.u_role},
+            { id: user.u_id, role: user.u_role },
             process.env.JWT_SECRET,
-            {expiresIn:"2h"}
+            { expiresIn: "2h" }
         );
-        res.status(200).json([{u_id: user.u_id, u_role: user.u_role, u_firstName: user.u_firstName, token}]);
+        res.status(200).json([{ u_id: user.u_id, u_role: user.u_role, u_firstName: user.u_firstName, token }]);
     } catch (err) {
-        res.status(500).json({error: err.message});
+        res.status(500).json({ error: err.message });
     }
 });
 //? ADMIN PAGE- USERNAME
-app.post("/api/getUsername", async (req, res) => {
+app.post("/api/getUsername", verifyToken, async (req, res) => {
     const { id } = req.body;
     try {
         const [rows] = await db.query("SELECT u_firstName FROM users WHERE u_id=?", [id]);

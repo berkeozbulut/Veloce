@@ -43,6 +43,8 @@
     </table>
 </template>
 <script>
+import { authFetch } from '@/utils/auth';
+
 
 export default {
 
@@ -63,7 +65,7 @@ export default {
     methods: {
         async getOrders() {
             try {
-                const res = await fetch(`${this.baseUrl}/api/orders`);
+                const res = await authFetch(`${this.baseUrl}/api/orders`);
                 if (!res.ok) throw new Error("orders endpoint hatası");
                 this.orders = await res.json();
             } catch (e) {
@@ -73,7 +75,7 @@ export default {
 
         async updateOrder(o_id, o_status) {
             try {
-                const res = await fetch(`${this.baseUrl}/api/orders/${o_id}`, {
+                const res = await authFetch(`${this.baseUrl}/api/orders/${o_id}`, {
                     method: "PUT",
                     headers: {
                         "Content-type": "application/json"

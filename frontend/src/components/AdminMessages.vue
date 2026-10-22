@@ -48,6 +48,7 @@
   </table>
 </template>
 <script>
+import { authFetch } from '@/utils/auth';
 
 export default {
 
@@ -76,7 +77,7 @@ export default {
     async getMessages() {
       this.error = null;
       try {
-        const res = await fetch(`${this.baseUrl}/api/messages`);
+        const res = await authFetch(`${this.baseUrl}/api/messages`);
         if (!res.ok) throw new Error("messages endpoint hatası");
         this.messages = await res.json();
       } catch (e) {
@@ -88,7 +89,7 @@ export default {
 
       try {
 
-        const res = await fetch(`${this.baseUrl}/api/messages/${m_id}`, { //istekte bulunduğumuz yer.
+        const res = await authFetch(`${this.baseUrl}/api/messages/${m_id}`, { //istekte bulunduğumuz yer.
           method: "PUT", // Put isteğinde bulunduk
           headers: {
             "Content-type": "application/json"
@@ -114,7 +115,7 @@ export default {
     async deleteMessage(m_id) {
       try {
 
-        const res = await fetch(`${this.baseUrl}/api/messages/${m_id}`, { //istekte bulunduğumuz yer.
+        const res = await authFetch(`${this.baseUrl}/api/messages/${m_id}`, { //istekte bulunduğumuz yer.
           method: "DELETE", // Call delete
           headers: {
             "Content-type": "application/json"

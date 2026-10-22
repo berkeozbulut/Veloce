@@ -2,7 +2,7 @@
 import UserOrders from '@/components/UserOrders.vue';
 import UserProfile from '@/components/UserProfile.vue';
 import UserDashboard from '@/components/UserDashboard.vue';
-import { clearSession } from '@/utils/auth';
+import { clearSession, authFetch } from '@/utils/auth';
 import '@/assets/main.css';
 
 </script>
@@ -73,7 +73,7 @@ export default {
         async getUsername() {
             try {
                 const id = sessionStorage.getItem("userId");
-                const res = await fetch(`${this.baseUrl}/api/getUsername`, { //istekte bulunduğumuz yer.
+                const res = await authFetch(`${this.baseUrl}/api/getUsername`, { //istekte bulunduğumuz yer.
                     method: "POST", // Put isteğinde bulunduk
                     headers: {
                         "Content-type": "application/json"

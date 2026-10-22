@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { clearSession } from '@/utils/auth';
+import { clearSession, authFetch } from '@/utils/auth';
 import { isValidPassword } from '@/utils/validation';
 
 export default {
@@ -81,7 +81,7 @@ export default {
         async getProfile() {
             try {
                 const id = sessionStorage.getItem("userId");
-                const res = await fetch(`${this.baseUrl}/api/users/${id}`);
+                const res = await authFetch(`${this.baseUrl}/api/users/${id}`);
                 if (!res.ok) {
                     const errorData = await res.json();
                     throw new Error(errorData.error);
@@ -94,7 +94,7 @@ export default {
         async updateProfile() {
             try {
                 const id = sessionStorage.getItem("userId");
-                const res = await fetch(`${this.baseUrl}/api/users/${id}/profile`, {
+                const res = await authFetch(`${this.baseUrl}/api/users/${id}/profile`, {
                     method: "PUT",
                     headers: { "Content-type": "application/json" },
                     body: JSON.stringify({
@@ -126,7 +126,7 @@ export default {
             }
             try {
                 const id = sessionStorage.getItem("userId");
-                const res = await fetch(`${this.baseUrl}/api/users/${id}/password`, {
+                const res = await authFetch(`${this.baseUrl}/api/users/${id}/password`, {
                     method: "PUT",
                     headers: { "Content-type": "application/json" },
                     body: JSON.stringify({
@@ -149,7 +149,7 @@ export default {
             if (!confirm("Hesabını silmek istediğine emin misin? Bu işlem geri alınamaz.")) return;
             try {
                 const id = sessionStorage.getItem("userId");
-                const res = await fetch(`${this.baseUrl}/api/users/${id}`, { method: "DELETE" });
+                const res = await authFetch(`${this.baseUrl}/api/users/${id}`, { method: "DELETE" });
                 if (!res.ok) {
                     const errorData = await res.json();
                     throw new Error(errorData.error);

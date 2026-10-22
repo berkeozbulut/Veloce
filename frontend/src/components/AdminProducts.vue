@@ -83,6 +83,8 @@
   </div>
 </template>
 <script>
+import { authFetch } from '@/utils/auth';
+
 
 export default {
   data() {
@@ -114,7 +116,7 @@ export default {
     async getProducts() {
       try {
         const id = sessionStorage.getItem("userId")
-        const res = await fetch(`${this.baseUrl}/api/products/${id}`);
+        const res = await authFetch(`${this.baseUrl}/api/products/${id}`);
         if (!res.ok) throw new Error("product endpoint hatası");
         this.products = await res.json();
       } catch (e) {
@@ -146,7 +148,7 @@ export default {
         formData.append("u_id", sessionStorage.getItem("userId"));
         if (this.selectedFile) formData.append("image", this.selectedFile);
 
-        const res = await fetch(`${this.baseUrl}/api/products`, {
+        const res = await authFetch(`${this.baseUrl}/api/products`, {
           method: "POST",
           body: formData
         });
@@ -196,10 +198,9 @@ export default {
         formData.append("price", p_price);
         formData.append("desc", p_desc);
         if (this.rowFiles[p_id]) formData.append("image", this.rowFiles[p_id]);
-        const res = await fetch(`${this.baseUrl}/api/products/${p_id}`, {
+        const res = await authFetch(`${this.baseUrl}/api/products/${p_id}`, {
           method: "PUT",
           body: formData
-
         });
 
 
@@ -223,7 +224,7 @@ export default {
     async deleteProduct(p_id) {
       try {
 
-        const res = await fetch(`${this.baseUrl}/api/products/${p_id}`, {
+        const res = await authFetch(`${this.baseUrl}/api/products/${p_id}`, {
           method: "DELETE",
 
         });

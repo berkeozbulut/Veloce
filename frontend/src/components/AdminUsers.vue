@@ -90,6 +90,7 @@
 
 </template>
 <script>
+import { authFetch } from '@/utils/auth';
 
 export default {
 
@@ -121,7 +122,7 @@ export default {
             this.error = null;
 
             try {
-                const res = await fetch(`${this.baseUrl}/api/users`);
+                const res = await authFetch(`${this.baseUrl}/api/users`);
                 if (!res.ok) throw new Error("users endpoint hatası");
                 this.users = await res.json();
             } catch (e) {
@@ -131,7 +132,7 @@ export default {
         async addUser() { // POST - kullanıcı Ekleme
             try {
 
-                const res = await fetch(`${this.baseUrl}/api/users`, { //istekte bulunduğumuz yer.
+                const res = await authFetch(`${this.baseUrl}/api/users`, { //istekte bulunduğumuz yer.
                     method: "POST", // Post isteğinde bulunduk
                     headers: {
                         "Content-type": "application/json"
@@ -165,7 +166,7 @@ export default {
 
         async updateUser(u_id, u_firstName, u_lastName, u_email, u_pass, u_birthdate,u_role) {
             try {
-                const res = await fetch(`${this.baseUrl}/api/users/${u_id}`, {
+                const res = await authFetch(`${this.baseUrl}/api/users/${u_id}`, {
                     method: "PUT",
                     headers: {
                         "Content-type": "application/json"
@@ -196,7 +197,7 @@ export default {
 
             try {
 
-                const res = await fetch(`${this.baseUrl}/api/users/${u_id}`, { //istekte bulunduğumuz yer.
+                const res = await authFetch(`${this.baseUrl}/api/users/${u_id}`, { //istekte bulunduğumuz yer.
                     method: "DELETE", // Put isteğinde bulunduk
                     headers: {
                         "Content-type": "application/json"

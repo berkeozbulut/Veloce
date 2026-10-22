@@ -3,7 +3,7 @@ import AdminProducts from '@/components/AdminProducts.vue';
 import AdminMessages from '@/components/AdminMessages.vue';
 import AdminUsers from '@/components/AdminUsers.vue'
 import AdminOrders from '@/components/AdminOrders.vue';
-import { clearSession } from '@/utils/auth';
+import { clearSession, authFetch } from '@/utils/auth';
 import '@/assets/main.css';
 </script>
 
@@ -88,7 +88,7 @@ export default {
         async getUsername() {
             try {
                 const id = sessionStorage.getItem("userId");
-                const res = await fetch(`${this.baseUrl}/api/getUsername`, { //istekte bulunduğumuz yer.
+                const res = await authFetch(`${this.baseUrl}/api/getUsername`, { //istekte bulunduğumuz yer.
                     method: "POST", // Put isteğinde bulunduk
                     headers: {
                         "Content-type": "application/json"

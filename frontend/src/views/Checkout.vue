@@ -166,6 +166,7 @@
     </div>
 </template>
 <script>
+import { authFetch } from '@/utils/auth';
 
 export default {
     inject: ['sepet'],
@@ -207,7 +208,7 @@ export default {
             const id = sessionStorage.getItem("userId");
             if (!id) return; // misafir kullanıcı için
             try {
-                const res = await fetch(`${this.baseUrl}/api/users/${id}`);
+                const res = await authFetch(`${this.baseUrl}/api/users/${id}`);
                 if (!res.ok) return; // bilgiler gelmezse form elle doldurulabilir
                 const user = await res.json();
                 this.order[0].firstName = user.u_firstName;

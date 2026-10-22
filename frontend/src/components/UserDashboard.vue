@@ -36,6 +36,7 @@
 
 <script>
 import { statusText } from '@/utils/orderStatus';
+import { authFetch } from '@/utils/auth';
 
 export default {
     data() {
@@ -52,7 +53,7 @@ export default {
         async getSummary() {
             try {
                 const id = sessionStorage.getItem("userId");
-                const res = await fetch(`${this.baseUrl}/api/orders/user/${id}/summary`);
+                const res = await authFetch(`${this.baseUrl}/api/orders/user/${id}/summary`);
                 if (!res.ok) {
                     const errorData = await res.json();
                     throw new Error(errorData.error);
