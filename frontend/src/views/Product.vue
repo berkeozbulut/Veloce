@@ -2,11 +2,16 @@
   <div>
     <h1>Ürünler</h1>
     <hr>
+    <p v-if="searchQuery" class="text-muted">
+      "{{ $route.query.q }}" için {{ filteredProducts.length }} sonuç
+      <RouterLink to="/product" class="ms-2">Aramayı temizle</RouterLink>
+    </p>
+    <p v-if="searchQuery && filteredProducts.length === 0">Aradığın ürün bulunamadı.</p>
     <!-- !ürün kartları -->
     <div class="row">
-      <div class="col-12 col-sm-6 col-lg-4 mt-3" v-for="p in products" :key="p.p_id">
+      <div class="col-12 col-sm-6 col-lg-4 mt-3" v-for="p in filteredProducts" :key="p.p_id">
         <div class="card urun-karti h-100">
-          <img class="card-img-top urun-gorsel" v-if="p.p_images" :src="baseUrl + p.p_images" alt="p.p_name">
+          <img class="card-img-top urun-gorsel" v-if="p.p_images" :src="baseUrl + p.p_images" :alt="p.p_name">
           <div class="card-body">
             <h5 class="card-title">{{ p.p_name }}</h5>
             <p v-if="p.p_stock" class="card-text"><b>{{ p.p_stock }}</b> Adet Mevcut!</p>
@@ -47,6 +52,18 @@ export default {
     this.getProducts();
 
 
+  },
+
+  computed: {
+    searchQuery() {
+      return (this.$route.query.q || "").toString().trim().toLocaleLowerCase("tr-TR");
+    },
+    filteredProducts() {
+      if (!this.searchQuery) return this.products;
+      return this.products.filter(p =>
+        p.p_name.toLocaleLowerCase("tr-TR").includes(this.searchQuery)
+      );
+    }
   },
 
   methods: {
@@ -115,7 +132,8 @@ export default {
   /* transition: width 0.3s ease;
 transition-delay: 0.3s; */
 }
-.urun-gorsel{
+
+.urun-gorsel {
   height: 200px;
   object-fit: contain;
   padding: 10px;

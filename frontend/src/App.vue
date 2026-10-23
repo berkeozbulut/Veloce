@@ -2,7 +2,7 @@
 import router from './router';
 import { RouterLink, RouterView } from 'vue-router'
 import Sepet from '@/components/sepet.vue'
-import { reactive, useSSRContext } from 'vue';
+import { reactive } from 'vue';
 import logo from '@/assets/img/Veloce-logo1.svg'
 import { isValidPassword, isPasswordConfirmed, isValidLogin } from './utils/validation';
 import { Modal } from 'bootstrap/dist/js/bootstrap.min';
@@ -58,8 +58,9 @@ import { Modal } from 'bootstrap/dist/js/bootstrap.min';
                                 <RouterLink class="navlink" to="/contact">İletişim</RouterLink>
                             </li>
                         </ul>
-                        <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Arama" aria-label="Search" />
+                        <form class="d-flex" role="search" @submit.prevent="search()">
+                            <input v-model="searchText" class="form-control me-2" type="search" placeholder="Ürün ara"
+                                aria-label="Search" />
                             <button class="search-button" type="submit">Ara</button>
                         </form>
                     </div>
@@ -118,7 +119,7 @@ import { Modal } from 'bootstrap/dist/js/bootstrap.min';
             </div>
         </div>
     </footer>
-    <!-- sepet -->
+    <!--! sepet-->
     <Sepet />
     <!--! Login model -->
     <div class="modal fade" id="loginModal" tabindex="-1">
@@ -164,7 +165,6 @@ import { Modal } from 'bootstrap/dist/js/bootstrap.min';
             </div>
         </div>
     </div>
-
     <!--! Register model -->
     <div class="modal fade" id="registerModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
@@ -247,6 +247,7 @@ export default {
             ],
             baseUrl: "http://localhost:3001",
             isLoggedIn: false,
+            searchText: "",
 
         };
 
@@ -260,7 +261,9 @@ export default {
     watch: {
         $route() {
             this.syncAuth();
+            this.searchText = this.$route.query.q || "";
         },
+
     },
     provide() {
         // her sayfadan(views) veriyi toplamamıza yarıyor.
@@ -271,6 +274,10 @@ export default {
     },
 
     methods: {
+        search() {
+            const q = this.searchText.trim();
+            router.push({ path: "/product", query: q ? { q } : {} });
+        },
         syncAuth() {
             this.isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
         },
