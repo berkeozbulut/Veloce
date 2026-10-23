@@ -25,7 +25,7 @@
               <h2 class="display-5">Hesabını Oluştur</h2>
               <p class="lead">Üye ol, siparişlerini tek bir panelden yönet. Toplam harcamanı ve son siparişini özet
                 ekranında gör, kişisel bilgilerini dilediğin zaman güncelle.</p>
-              <button class="btn btn-dark mt-3" data-bs-toggle="modal" data-bs-target="#loginModal">Hemen Üye
+              <button class="btn btn-dark mt-3" data-bs-toggle="modal" data-bs-target="#registerModal">Hemen Üye
                 Ol</button>
             </div>
           </div>

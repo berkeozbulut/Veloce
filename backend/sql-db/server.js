@@ -94,7 +94,7 @@ app.post("/api/products", verifyToken, isAdmin, upload.single("image"), async (r
         const image = req.file ? "/uploads/" + req.file.filename : null;
         const [result] = await db.query(
             "INSERT INTO products (p_name,p_active,p_stock,p_price,p_disc,p_desc,u_id,p_images ) VALUES (?,?,?,?,?,?,?,?)",
-            [name.trim(), 1, stock, price, price, desc.trim(), u_id, image]
+            [name.trim(), 1, stock, price, 0, desc.trim(), u_id, image]
         );
 
         // const [rows] = await db.query("SELECT * FROM products WHERE p_id=?", [result.id]);
@@ -520,7 +520,7 @@ app.post("/api/login", async (req, res) => {
         const token = jwt.sign(
             { id: user.u_id, role: user.u_role },
             process.env.JWT_SECRET,
-            { expiresIn: "2h" }
+            { expiresIn: "1h" }
         );
         res.status(200).json([{ u_id: user.u_id, u_role: user.u_role, u_firstName: user.u_firstName, token }]);
     } catch (err) {

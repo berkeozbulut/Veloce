@@ -28,7 +28,7 @@ import { Modal } from 'bootstrap/dist/js/bootstrap.min';
                             <span v-if="isLoggedIn">
                                 <i class="bi bi-person fs-3"></i>
                             </span>
-                            <span v-else>
+                            <span v-else class="text-nowrap">
                                 <i class="bi bi-person-raised-hand fs-5"></i> Hi!
                             </span>
                         </button>
@@ -126,9 +126,15 @@ import { Modal } from 'bootstrap/dist/js/bootstrap.min';
             <div class="modal-content">
                 <div class="login-modal">
                     <div class="modal-header">
-                        <button type="button" class="btn" data-bs-toggle="modal">Giriş Yap</button>
-                        <h1 class="modal-title fs-5">/</h1><button type="button" class="btn" data-bs-toggle="modal"
-                            data-bs-target="#registerModal">Kaydol</button>
+                        <ul class="nav nav-underline auth-tabs">
+                            <li class="nav-item">
+                                <button type="button" class="nav-link active">Giriş Yap</button>
+                            </li>
+                            <li class="nav-item">
+                                <button type="button" class="nav-link" data-bs-toggle="modal"
+                                    data-bs-target="#registerModal">Kaydol</button>
+                            </li>
+                        </ul>
                         <button type="button" id="loginClose" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
@@ -165,10 +171,15 @@ import { Modal } from 'bootstrap/dist/js/bootstrap.min';
             <div class="modal-content">
                 <div class="register-modal">
                     <div class="modal-header">
-                        <button type="button" id="loginlink" class="btn" data-bs-toggle="modal"
-                            data-bs-target="#loginModal">Giriş
-                            Yap</button>
-                        <h1 class="modal-title fs-5">/</h1><button type="button" class="btn">Kaydol</button>
+                        <ul class="nav nav-underline auth-tabs">
+                            <li class="nav-item">
+                                <button type="button" class="nav-link" data-bs-toggle="modal"
+                                    data-bs-target="#loginModal">Giriş Yap</button>
+                            </li>
+                            <li class="nav-item">
+                                <button type="button" class="nav-link active">Kaydol</button>
+                            </li>
+                        </ul>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">

@@ -6,7 +6,7 @@
     <!-- !Content -->
     <div class="content">
       <div class="row">
-        <div class="mb-3 col-6">
+        <div class="mb-3 col-12 col-md-6">
           <!-- !Form -->
           <div class="contact-form">
 
@@ -48,20 +48,10 @@
                     class="bi bi-check2"></i></button>
               </div>
             </form>
-
           </div>
         </div>
 
-
-        <!-- ! Map -->
-        <div class="mb-3 col-6">
-          <!-- <div class="harita">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3010.288444552699!2d29.025643076368272!3d41.01894497134902!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNDHCsDAxJzA4LjIiTiAyOcKwMDEnNDEuNiJF!5e0!3m2!1str!2str!4v1783040630584!5m2!1str!2str"
-              width="100%" height="240" style="border:1px solid black;" allowfullscreen="" loading="lazy"
-              referrerpolicy="strict-origin-when-cross-origin"></iframe>
-
-          </div> -->
+        <div class="mb-3 col-12 col-md-6">
           <!-- !Alerts -->
           <div class="row">
             <!-- !correct -->

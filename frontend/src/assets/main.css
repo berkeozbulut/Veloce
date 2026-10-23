@@ -9,33 +9,45 @@ body,
 .carousel-inner {
     border-radius: 10px;
 }
-.bg-veloce{
+
+.bg-veloce {
     background-color: #991b1b;
     color: white;
 }
+
 .sepet-icon {
     position: fixed;
     right: 25px;
     top: 50%;
     cursor: pointer;
 }
+
+.nav.auth-tabs {
+    --bs-nav-link-color: #6c757d;
+    --bs-nav-link-hover-color: #991b1b;
+    --bs-nav-underline-link-active-color: #991b1b;
+}
+
 @media (max-width: 991px) {
-       .sepet-icon {
-           right: 10px;
-           background-color: white;
-           border-radius: 50%;
-           padding: 6px 10px;
-           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-       }
-   }
-.logo-img{
+    .sepet-icon {
+        right: 10px;
+        background-color: white;
+        border-radius: 50%;
+        padding: 6px 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+}
+
+.logo-img {
     height: 50px;
 }
+
 @media (min-width: 992px) {
-    .logo-img{
+    .logo-img {
         height: 80px;
     }
 }
+
 .navbar-custom {
     background-color: white;
 }
