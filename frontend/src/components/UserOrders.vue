@@ -32,6 +32,7 @@ import { statusText } from '@/utils/orderStatus';
 </template>
 <script>
 import { authFetch } from '@/utils/auth';
+import { showAlert } from '@/utils/alert';
 export default {
     data() {
         return {
@@ -54,7 +55,7 @@ export default {
                 }
                 this.orders = await res.json();
             } catch (e) {
-                alert(e.message);
+                showAlert(e.message,"danger");
             }
         },
     }

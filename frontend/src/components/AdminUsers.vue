@@ -32,7 +32,8 @@
                 <td><input class="form-control" type="text" v-model="user.u_firstName"></td>
                 <td><input class="form-control" type="text" v-model="user.u_lastName"></td>
                 <td><input class="form-control" type="text" v-model="user.u_email"></td>
-                <td><input class="form-control" type="password" placeholder="Yeni şifre (boş = değişmez)" v-model="user.u_pass"></td>
+                <td><input class="form-control" type="password" placeholder="Yeni şifre (boş = değişmez)"
+                        v-model="user.u_pass"></td>
                 <td><input type="date" class="form-control" v-model="user.u_birthdate"></td>
                 <td><select class="form-select mb-4" v-model="user.u_role">
                         <option value=0>Kullanıcı</option>
@@ -73,14 +74,13 @@
                         <label>Doğum Tarihi</label><br>
                         <input type="date" class="form-control mb-3" v-model="newUser[0].birthdate" required>
 
-                        <label >Rol</label>
+                        <label>Rol</label>
                         <select class="form-select" v-model="newUser[0].role">
                             <option value=0>Kullanıcı</option>
                             <option value=1>Admin</option>
                         </select>
                         <button style="margin: 5px; margin-bottom: 3px;" class="btn btn-outline-success w-100"
                             type="submit">Kullanıcı Ekle</button>
-                        <span>{{ userMessages }}</span>
                     </form>
                 </div>
 
@@ -91,7 +91,7 @@
 </template>
 <script>
 import { authFetch } from '@/utils/auth';
-
+import { showAlert, showConfirm } from '@/utils/alert';
 export default {
 
     data() {
@@ -104,7 +104,7 @@ export default {
 
             ],
             baseUrl: "http://localhost:3001",
-            userMessages: null,
+           
 
         };
 
@@ -149,7 +149,7 @@ export default {
                 });
                 if (!res.ok) throw new Error("addUser endpoint hatası");
                 const data = await res.json();
-                this.userMessages = data;
+                showAlert("Kullanıcı eklendi.");
 
                 this.getUsers();//ekleme işleminden sonra tekrar verileri çek 
                 this.newUser[0].firstName = "";
@@ -157,14 +157,14 @@ export default {
                 this.newUser[0].email = "";
                 this.newUser[0].pass = "";
                 this.newUser[0].birthdate = "";
-                this.newUser[0].role= 0;
+                this.newUser[0].role = 0;
             }
             catch (e) {
-                this.userMessages = e.message
+                showAlert(e.message, "danger");
             }
         },
 
-        async updateUser(u_id, u_firstName, u_lastName, u_email, u_pass, u_birthdate,u_role) {
+        async updateUser(u_id, u_firstName, u_lastName, u_email, u_pass, u_birthdate, u_role) {
             try {
                 const res = await authFetch(`${this.baseUrl}/api/users/${u_id}`, {
                     method: "PUT",
@@ -183,7 +183,7 @@ export default {
                 if (!res.ok) throw new Error("updateUser endpoint hatası");
 
                 const data = await res.json();
-                if (data) alert("Kullanıcı Güncellendi.")
+                if (data) showAlert("Kullanıcı Güncellendi.")
 
                 this.getUsers();//ekleme işleminden sonra tekrar verileri çek 
             }
@@ -194,7 +194,7 @@ export default {
         },
         // Delete user
         async deleteUser(u_id) {
-
+            if (!(await showConfirm("Bu kullanıcıyı silmek istediğine emin misin?"))) return;
             try {
 
                 const res = await authFetch(`${this.baseUrl}/api/users/${u_id}`, { //istekte bulunduğumuz yer.
@@ -209,7 +209,7 @@ export default {
                 if (!res.ok) throw new Error(res.error);
 
                 const data = await res.json();
-                if (data) alert("Kullanıcı Silindi.")
+                if (data) showAlert("Kullanıcı Silindi.")
 
                 this.getUsers();//ekleme işleminden sonra tekrar verileri çek
                 //before get datas  

@@ -74,7 +74,7 @@
             <input class="form-control mb-2" type="file" accept="image/*" ref="fileInput" @change="onFileChange">
             <button style="margin: 5px; margin-bottom: 3px; width: 100;" class="btn btn-success "
               type="submit">Ekle</button>
-            <label>{{ productMessages }}</label>
+
           </form>
         </div>
 
@@ -84,7 +84,7 @@
 </template>
 <script>
 import { authFetch } from '@/utils/auth';
-
+import { showAlert, showConfirm } from '@/utils/alert';
 
 export default {
   data() {
@@ -97,7 +97,6 @@ export default {
       ],
       products: [],
       baseUrl: "http://localhost:3001",
-      productMessages: null,
       selectedFile: null,
       rowFiles: {},
 
@@ -159,7 +158,7 @@ export default {
           throw new Error(errorData.error);
         }
         const data = await res.json();
-        this.productMessages = data;
+        showAlert("Ürün eklendi.");
         this.getProducts();//ekleme işleminden sonra tekrar verileri çek 
         this.newProduct[0].p_name = "";
         this.newProduct[0].p_stock = 0;
@@ -169,7 +168,7 @@ export default {
         this.$refs.fileInput.value = "";
       }
       catch (e) {
-        this.productMessages = e.message
+        showAlert(e.message, "danger");
       }
     },
 
@@ -210,23 +209,22 @@ export default {
         }
 
         const data = await res.json();
-        if (data) alert(data)
+        if (data) showAlert(data)
         delete this.rowFiles[p_id];
         this.$refs.rowFile.forEach(input => input.value = "");
         this.getProducts();
       }
       catch (e) {
-        alert(e.message);
+        showAlert(e.message,"danger");
         this.getProducts();
       }
     },
 
     async deleteProduct(p_id) {
+      if (!(await showConfirm("Bu ürünü silmek istediğine emin misin?"))) return;
       try {
-
         const res = await authFetch(`${this.baseUrl}/api/products/${p_id}`, {
           method: "DELETE",
-
         });
         if (!res.ok) {
           const errorData = await res.json();
@@ -234,12 +232,12 @@ export default {
         }
 
         const data = await res.json();
-        if (data) alert("Ürün Silindi.")
+        if (data) showAlert("Ürün Silindi.")
 
         this.getProducts();
       }
       catch (e) {
-        alert(e.message);
+        showAlert(e.message,"danger");
       }
     },
     onFileChange(e) {
@@ -255,7 +253,7 @@ export default {
 </script>
 
 <style scoped>
-.admin-thumb{
+.admin-thumb {
   width: 60px;
   height: 60px;
   object-fit: contain;

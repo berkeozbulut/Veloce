@@ -65,7 +65,7 @@
 <script>
 import { clearSession, authFetch } from '@/utils/auth';
 import { isValidPassword } from '@/utils/validation';
-
+import { showAlert, showConfirm } from '@/utils/alert';
 export default {
     data() {
         return {
@@ -88,7 +88,7 @@ export default {
                 }
                 this.profile = await res.json();
             } catch (e) {
-                alert(e.message);
+                showAlert(e.message,"danger");
             }
         },
         async updateProfile() {
@@ -109,19 +109,19 @@ export default {
                     throw new Error(errorData.error);
                 }
                 const data = await res.json();
-                alert(data.message);
+                showAlert(data.message);
             } catch (e) {
-                alert(e.message);
+                showAlert(e.message,"danger");
                 this.getProfile(); // hata olursa ekranı veritabanındaki bilgilere döndür
             }
         },
         async changePassword() {
             if (this.passwords.newPass !== this.passwords.newPassRepeat) {
-                alert("Yeni şifreler birbiriyle uyuşmuyor");
+                showAlert("Yeni şifreler birbiriyle uyuşmuyor", "warning");
                 return;
             }
             if (!isValidPassword(this.passwords.newPass)) {
-                alert("Yeni şifre en az 8 karakter olmalı; en az 1 büyük harf, 1 rakam ve '!@#$%^&*.' sembollerinden birini içermeli");
+                showAlert("Yeni şifre en az 8 karakter olmalı; en az 1 büyük harf, 1 rakam ve '!@#$%^&*.' sembollerinden birini içermeli", "warning");
                 return;
             }
             try {
@@ -139,15 +139,14 @@ export default {
                     throw new Error(errorData.error);
                 }
                 const data = await res.json();
-                alert(data.message);
+                showAlert(data.message);
                 this.passwords = { currentPass: "", newPass: "", newPassRepeat: "" };
             } catch (e) {
-                alert(e.message);
+                showAlert(e.message,"danger");
             }
         },
         async deleteAccount() {
-            if (!confirm("Hesabını silmek istediğine emin misin? Bu işlem geri alınamaz.")) return;
-            try {
+            if (!(await showConfirm("Hesabın kalıcı olarak silinecek. Bu işlem geri alınamaz.", "Hesabını silmek üzeresin"))) return; try {
                 const id = sessionStorage.getItem("userId");
                 const res = await authFetch(`${this.baseUrl}/api/users/${id}`, { method: "DELETE" });
                 if (!res.ok) {
@@ -155,10 +154,10 @@ export default {
                     throw new Error(errorData.error);
                 }
                 clearSession();
-                alert("Hesabın silindi");
+                showAlert("Hesabın silindi");
                 this.$router.push("/");
             } catch (e) {
-                alert(e.message);
+                showAlert(e.message,"danger");
             }
         }
     }
@@ -166,9 +165,9 @@ export default {
 </script>
 <style scoped>
 .btn-change-pass {
- 
+
     width: 15%;
-    border: 2px solid  #991b1b;
+    border: 2px solid #991b1b;
     border-color: #991b1b;
     border-radius: 15px;
     background-color: #991b1b;

@@ -3,6 +3,7 @@ import UserOrders from '@/components/UserOrders.vue';
 import UserProfile from '@/components/UserProfile.vue';
 import UserDashboard from '@/components/UserDashboard.vue';
 import { clearSession, authFetch } from '@/utils/auth';
+import { showAlert, showConfirm } from '@/utils/alert';
 import '@/assets/main.css';
 
 </script>
@@ -92,10 +93,11 @@ export default {
                 console.log(e);
             }
         },
-        logout() {
+        async logout() {
+            if (!(await showConfirm("Çıkış yapmak istediğine emin misin?"))) return;
             clearSession();
-
-            this.$router.push("/")
+            this.$router.push("/");
+            showAlert("Yine bekleriz!", "success", "Çıkış yapıldı");
         }
     },
 
@@ -106,7 +108,7 @@ export default {
 <style scoped>
 .admin-layout {
     display: flex;
-    
+
 }
 
 .admin-sidebar {

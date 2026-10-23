@@ -5,6 +5,7 @@ import AdminUsers from '@/components/AdminUsers.vue'
 import AdminOrders from '@/components/AdminOrders.vue';
 import { clearSession, authFetch } from '@/utils/auth';
 import '@/assets/main.css';
+import { showAlert, showConfirm } from '@/utils/alert';
 </script>
 
 
@@ -107,9 +108,11 @@ export default {
                 console.log(e);
             }
         },
-        logOut() {
+        async logOut() {
+            if (!(await showConfirm("Çıkış yapmak istediğine emin misin?"))) return;
             clearSession();
-            this.$router.push("/")
+            this.$router.push("/");
+            showAlert("Yine bekleriz!", "success", "Çıkış yapıldı");
         }
     },
 

@@ -1,5 +1,5 @@
 import router from "@/router";
-
+import { showAlert } from "./alert";
 export function clearSession() {
     sessionStorage.removeItem("isLoggedIn");
     sessionStorage.removeItem("role");
@@ -20,7 +20,7 @@ export async function authFetch(url, options = {}){
 
     if(res.status === 401) {
         clearSession();
-        alert("Oturumunuz sona erdi, lütfen tekrar giriş yapın.");
+        showAlert("Oturumunuz sona erdi, lütfen tekrar giriş yapın.","warning");
         router.push("/");
     }
     return res;

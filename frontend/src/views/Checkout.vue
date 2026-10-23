@@ -167,6 +167,7 @@
 </template>
 <script>
 import { authFetch } from '@/utils/auth';
+import { showAlert } from '@/utils/alert';
 
 export default {
     inject: ['sepet'],
@@ -238,11 +239,11 @@ export default {
                     throw new Error(errorData.error);
                 }
                 const data = await res.json();
-                alert(data.message);
+                showAlert(data.message);
                 this.sepet.splice(0);
             }
             catch (e) {
-                alert(e.message);
+                showAlert(e.message,"danger");
             }
 
         }

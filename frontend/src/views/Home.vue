@@ -11,7 +11,7 @@
             </h3>
           </div>
         </div>
-        <div class="d-md-flex flex-md-equal gap-3 my-md-3 px-0">
+        <div class="d-md-flex flex-md-equal gap-3 my-md-3 px-0 ">
           <div class="bg-veloce pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
             <div class="my-3 py-3">
               <h2 class="display-5">Ekipmanını Seç</h2>
@@ -31,8 +31,8 @@
           </div>
         </div>
 
-        <div class="d-md-flex flex-md-equal gap-3 my-md-3 px-0">
-          <div class="text-bg-dark pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class=" d-md-flex flex-md-equal gap-3 my-md-3 px-0">
+          <div class=" ddd  pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
             <div class="my-3 py-3">
               <h2 class="display-5">Siparişini Takip Et</h2>
               <p class="lead">Siparişin hazırlanıyor mu, kargoda mı, teslim mi edildi? Hesabından her adımı takip et.
@@ -40,7 +40,12 @@
               <button class="btn btn-light mt-3" data-bs-toggle="modal" data-bs-target="#loginModal">Giriş Yap</button>
             </div>
           </div>
-
+        </div>
+      </div>
+    </main>
+  </div>
+</template>
+<!-- 
           <div class="bg-veloce pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
             <div class="my-3 py-3">
               <h2 class="display-5">Bize Ulaş</h2>
@@ -48,12 +53,7 @@
                 kısa sürede dönüş yapsın.</p>
               <RouterLink to="/contact" class="btn btn-light mt-3">İletişime Geç</RouterLink>
             </div>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
-</template>
+          </div> -->
 
 <script>
 
@@ -88,5 +88,9 @@ export default {
   .flex-md-equal>* {
     flex: 1;
   }
+}
+.ddd{
+  background-color: #3a3a3a;
+  color: white;
 }
 </style>

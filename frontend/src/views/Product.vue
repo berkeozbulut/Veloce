@@ -28,17 +28,13 @@
     </div>
   </div>
   <!-- !alerts -->
-  <AlertBox ref="cartAlert" variant="success" title="Harika!!!"
-    message="Ürün sepete eklendi! Ürününü sepet kısmında bulabilirsin :D" :duration="5000" />
-  <AlertBox ref="cartWarning" variant="warning" title="Hey dikkat et!" message="Stok adedi kadar ürün ekleyebilirsiniz."
-    :duration="5000" />
 </template>
 <script>
-import AlertBox from '@/components/AlertBox.vue';
+import { showAlert } from '@/utils/alert';
 
 export default {
   inject: ['sepet'],
-  components: { AlertBox },
+
   data() {
 
     return {
@@ -79,7 +75,7 @@ export default {
 
       const currentQuantity = cartProduct ? cartProduct.quantity : 0;
       if (currentQuantity >= Number(product.p_stock)) {
-        this.$refs.cartWarning.open();
+        showAlert("Stok adedi kadar ürün ekleyebilirsiniz.", "warning");
         return;
       }
       if (cartProduct)
@@ -90,7 +86,7 @@ export default {
           quantity: 1
         });
       }
-      this.$refs.cartAlert.open();
+showAlert("Ürün sepete eklendi! Sepet kısmında bulabilirsin :D");
     },
     async getProducts() {
       try {

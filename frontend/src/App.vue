@@ -6,6 +6,8 @@ import { reactive } from 'vue';
 import logo from '@/assets/img/Veloce-logo1.svg'
 import { isValidPassword, isPasswordConfirmed, isValidLogin } from './utils/validation';
 import { Modal } from 'bootstrap/dist/js/bootstrap.min';
+import AlertBox from './components/AlertBox.vue';
+import { showAlert } from './utils/alert';
 
 </script>
 
@@ -234,7 +236,7 @@ import { Modal } from 'bootstrap/dist/js/bootstrap.min';
         </div>
     </div>
 
-
+    <AlertBox />
 </template>
 <script>
 
@@ -329,7 +331,7 @@ export default {
                             throw new Error(errorData.error)
                         };
                         const data = await res.json();
-                        if (data) alert(data)
+                        if (data) showAlert(data)
                         this.user[0].firstName = "";
                         this.user[0].lastName = "";
                         this.user[0].email = "";
@@ -345,11 +347,11 @@ export default {
                     }
                 }
                 else {
-                    alert("En az 8 karakter ve en az 1 büyük harf ve '!@#$%^&*.' sembollerinden birini kullanmayı unutma :) ")
+                    showAlert("En az 8 karakter ve en az 1 büyük harf ve '!@#$%^&*.' sembollerinden birini kullanmayı unutma :) ","warning")
                 }
             }
             else {
-                alert("Ya tick atmadın ya da girilen parola uyuşmadı :(")
+                showAlert("Ya tick atmadın ya da girilen parola uyuşmadı :(","warning")
             }
         },
         async login() {
@@ -374,7 +376,7 @@ export default {
                     const data = await res.json();
                     if (data) {
 
-                        alert("Giriş başarılı. Hoşgeldin" + " " + data[0].u_firstName)
+                        showAlert("Hoşgeldin" + " " + data[0].u_firstName, "success", "Giriş başarılı")
                         sessionStorage.setItem("isLoggedIn", true);
                         sessionStorage.setItem("role", data[0].u_role);
                         sessionStorage.setItem("userId", data[0].u_id);
@@ -391,11 +393,11 @@ export default {
                     document.getElementById('loginClose')?.click() //for hide login modal  
                 }
                 catch (e) {
-                    alert(e.message)
+                    showAlert(e.message, "danger")
                 }
             }
             else {
-                alert("E-posta, parola ya da tick işaretli değil!")
+                showAlert("E-posta, parola ya da tick işaretli değil!", "warning")
             }
         },
     }

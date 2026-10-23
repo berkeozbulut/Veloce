@@ -49,7 +49,7 @@
 </template>
 <script>
 import { authFetch } from '@/utils/auth';
-
+import { showAlert, showConfirm } from '@/utils/alert';
 export default {
 
   data() {
@@ -103,7 +103,7 @@ export default {
         if (!res.ok) throw new Error("updateMessage endpoint hatası");
 
         const data = await res.json();
-        if (data) alert(data)
+        if (data) showAlert(data)
 
         this.getMessages();//ekleme işleminden sonra tekrar verileri çek 
 
@@ -113,6 +113,7 @@ export default {
       }
     },
     async deleteMessage(m_id) {
+      if (!(await showConfirm("Bu mesajı silmek istediğine emin misin?"))) return;
       try {
 
         const res = await authFetch(`${this.baseUrl}/api/messages/${m_id}`, { //istekte bulunduğumuz yer.
@@ -126,7 +127,7 @@ export default {
         if (!res.ok) throw new Error(res.error);
 
         const data = await res.json();
-        if (data) alert("Mesaj silindi")
+        if (data) showAlert("Mesaj silindi")
 
         this.getMessages();//ekleme işleminden sonra tekrar verileri çek 
       }

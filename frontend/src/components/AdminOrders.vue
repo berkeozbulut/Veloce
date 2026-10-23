@@ -44,7 +44,7 @@
 </template>
 <script>
 import { authFetch } from '@/utils/auth';
-
+import { showAlert } from '@/utils/alert';
 
 export default {
 
@@ -89,7 +89,7 @@ export default {
                 if (!res.ok) throw new Error("updateOrder endpoint hatası");
 
                 const data = await res.json();
-                if (data) alert("Sipariş Durumu Güncellendi.")
+                if (data) showAlert("Sipariş Durumu Güncellendi.")
             }
             catch (e) {
                 console.log(e);

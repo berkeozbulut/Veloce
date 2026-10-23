@@ -25,7 +25,8 @@
                     <div v-if="summary.lastOrder">
                         <h5 class="mb-1">{{ summary.lastOrder.o_no }}</h5>
                         <p class="mb-0">{{ statusText(summary.lastOrder.o_status) }}</p>
-                        <small class="text-muted">{{ new Date(summary.lastOrder.o_created_at).toLocaleDateString('tr-TR') }}</small>
+                        <small class="text-muted">{{ new
+                            Date(summary.lastOrder.o_created_at).toLocaleDateString('tr-TR') }}</small>
                     </div>
                     <p v-else class="mb-0">Henüz siparişin yok.</p>
                 </div>
@@ -37,6 +38,8 @@
 <script>
 import { statusText } from '@/utils/orderStatus';
 import { authFetch } from '@/utils/auth';
+import { showAlert } from '@/utils/alert';
+
 
 export default {
     data() {
@@ -60,7 +63,7 @@ export default {
                 }
                 this.summary = await res.json();
             } catch (e) {
-                alert(e.message);
+                showAlert(e.message, "danger");
             }
         }
     }
