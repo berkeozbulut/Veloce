@@ -78,10 +78,16 @@ import { Modal } from 'bootstrap/dist/js/bootstrap.min';
                 </RouterLink>
             </div>
             <div class="col-6 col-md">
-                <h5>Keşfet/İçerik</h5>
+                <h5>Keşfet</h5>
                 <ul class="list-unstyled text-small">
                     <li>
-                        <router-link to="/" class="link-secondary text-decoration-none" href="#">Blog</router-link>
+                        <router-link to="/" class="link-secondary text-decoration-none">Anasayfa</router-link>
+                    </li>
+                    <li>
+                        <router-link to="/blog" class="link-secondary text-decoration-none">Blog</router-link>
+                    </li>
+                    <li>
+                        <router-link to="/product" class="link-secondary text-decoration-none">Ürünlerimiz</router-link>
                     </li>
                 </ul>
             </div>
@@ -89,16 +95,19 @@ import { Modal } from 'bootstrap/dist/js/bootstrap.min';
                 <h5>Ekipman</h5>
                 <ul class="list-unstyled text-small">
                     <li>
-                        <router-link to="/product" class="link-secondary text-decoration-none" href="#">Ekipman
-                            Rehberi</router-link>
+                        <router-link to="/product" class="link-secondary text-decoration-none">Tüm Ürünler</router-link>
                     </li>
                     <li>
-                        <router-link to="/product" class="link-secondary text-decoration-none" href="#">Başlangıç
-                            Setleri</router-link>
+                        <router-link :to="{ path: '/product', query: { q: 'kask' } }"
+                            class="link-secondary text-decoration-none">Kasklar</router-link>
                     </li>
                     <li>
-                        <router-link to="/product" class="link-secondary text-decoration-none" href="#">Ekipman
-                            Önerileri</router-link>
+                        <router-link :to="{ path: '/product', query: { q: 'mont' } }"
+                            class="link-secondary text-decoration-none">Montlar</router-link>
+                    </li>
+                    <li>
+                        <router-link :to="{ path: '/product', query: { q: 'eldiven' } }"
+                            class="link-secondary text-decoration-none">Eldivenler</router-link>
                     </li>
                 </ul>
             </div>
@@ -118,6 +127,7 @@ import { Modal } from 'bootstrap/dist/js/bootstrap.min';
                 </ul>
             </div>
         </div>
+        <p class="text-muted text-center small mt-4 mb-0">© 2026 VELOCE. Tüm hakları saklıdır.</p>
     </footer>
     <!--! sepet-->
     <Sepet />

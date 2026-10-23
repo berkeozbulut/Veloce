@@ -1,4 +1,6 @@
 <template>
+    <h1>Sıkça Sorulan Sorular</h1>
+    <hr>
 <div class="content">
             <div class="accordion mt-5" id="accordionExample">
                 <div class="accordion-item">
@@ -41,8 +43,7 @@
                     <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
                         data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                            Her ürün sayfasında bulunan beden tablosunu inceleyerek baş çevrenize en uygun kask ölçüsünü
-                            seçebilirsiniz. </div>
+                           Kafa çevrenizi mezurayla ölçüp İletişim sayfasından bize yazın, size uygun bedeni önerelim. </div>
                     </div>
                 </div>
             </div>

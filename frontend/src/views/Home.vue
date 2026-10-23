@@ -37,7 +37,7 @@
               <h2 class="display-5">Siparişini Takip Et</h2>
               <p class="lead">Siparişin hazırlanıyor mu, kargoda mı, teslim mi edildi? Hesabından her adımı takip et.
                 Üye olmadan da alışveriş yapabilirsin.</p>
-              <RouterLink to="/user" class="btn btn-light mt-3">Hesabıma Git</RouterLink>
+              <button class="btn btn-light mt-3" data-bs-toggle="modal" data-bs-target="#loginModal">Giriş Yap</button>
             </div>
           </div>
 
