@@ -12,49 +12,50 @@
 
     </div>
   </div>
-
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Ürün Adı</th>
-        <th scope="col">Stok</th>
-        <th scope="col">Fiyat(₺)</th>
-        <th scope="col">KDV'li Fiyat</th>
-        <th scope="col">Açıklama</th>
-        <th scope="col">Görsel</th>
-        <th scope="col">İşlem</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="product, index in products" :key="product.p_id">
-        <th>{{ index + 1 }}</th>
-        <td><input class="form-control" type="text" v-model="product.p_name"></td>
-        <td><input class="form-control" type="number" v-model="product.p_stock"></td>
-        <td><input class="form-control" type="number" v-model.number="product.p_price"></td>
-        <td>{{ Number(product.p_price * 1.2).toLocaleString('tr-TR') }} ₺</td>
-        <td><textarea class="form-control" type="text" v-model="product.p_desc"></textarea></td>
-        <td>
-          <img v-if="product.p_images" :src="baseUrl + product.p_images" class="admin-thumb">
-          <input type="file" accept="image/*" ref="rowFile" class="form-control form-control-sm mt-1"
-            @change="onRowFileChange(product.p_id, $event)">
-        </td>
-        <td>
-          <button @click="updateProduct(product.p_id, product.p_name, product.p_stock, product.p_price, product.p_desc)"
-            class="btn btn-outline-primary btn-sm m-1">Güncelle</button>
-          <button @click="deleteProduct(product.p_id)" class="btn btn-outline-danger  btn-sm m-1">Sil</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Ürün Adı</th>
+          <th scope="col">Stok</th>
+          <th scope="col">Fiyat(₺)</th>
+          <th scope="col">KDV'li Fiyat</th>
+          <th scope="col">Açıklama</th>
+          <th scope="col">Görsel</th>
+          <th scope="col">İşlem</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="product, index in products" :key="product.p_id">
+          <th>{{ index + 1 }}</th>
+          <td><input class="form-control" type="text" v-model="product.p_name"></td>
+          <td><input class="form-control" type="number" v-model="product.p_stock"></td>
+          <td><input class="form-control" type="number" v-model.number="product.p_price"></td>
+          <td>{{ Number(product.p_price * 1.2).toLocaleString('tr-TR') }} ₺</td>
+          <td><textarea class="form-control" type="text" v-model="product.p_desc"></textarea></td>
+          <td>
+            <img v-if="product.p_images" :src="baseUrl + product.p_images" class="admin-thumb">
+            <input type="file" accept="image/*" ref="rowFile" class="form-control form-control-sm mt-1"
+              @change="onRowFileChange(product.p_id, $event)">
+          </td>
+          <td>
+            <button
+              @click="updateProduct(product.p_id, product.p_name, product.p_stock, product.p_price, product.p_desc)"
+              class="btn btn-outline-primary btn-sm m-1">Güncelle</button>
+            <button @click="deleteProduct(product.p_id)" class="btn btn-outline-danger  btn-sm m-1">Sil</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <!-- !Ürün Ekle Modalı -->
   <div class="modal fade" id="addProduct" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5">Ürün Ekle</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close text-nowrap" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form @submit.prevent="addProduct()">
@@ -215,7 +216,7 @@ export default {
         this.getProducts();
       }
       catch (e) {
-        showAlert(e.message,"danger");
+        showAlert(e.message, "danger");
         this.getProducts();
       }
     },
@@ -237,7 +238,7 @@ export default {
         this.getProducts();
       }
       catch (e) {
-        showAlert(e.message,"danger");
+        showAlert(e.message, "danger");
       }
     },
     onFileChange(e) {
@@ -257,5 +258,8 @@ export default {
   width: 60px;
   height: 60px;
   object-fit: contain;
+}
+.table .form-control {
+    min-width: 110px;
 }
 </style>

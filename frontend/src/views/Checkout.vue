@@ -7,50 +7,33 @@
                     <i class="bi bi-check-circle-fill"></i>
                     <h1>Ödeme Sayfası</h1>
                 </div>
-                <div class="row g-5">
+                               <div class="row g-5">
                     <!-- !Sepet Kısmı -->
-                    <div class="col-md-5 col-lg-4 order-md-last">
+                    <div class="col-lg-4 order-lg-last">
                         <h4 class="d-flex justify-content-between align-items-center mb-3">
                             <span class="text">Sepet</span>
                             <span class="text">{{ toplamAdet }} ürün mevcut</span>
                         </h4>
 
-                        <ul class="list-group mb-3">
-                            <li class="list-group-item d-flex justify-content-between lh-sm">
-                                <div>
-                                    <h6 class="my-0">Ürün Adı</h6>
-                                </div>
-                                <h6 class="text-body-secondary">Fiyat(₺)</h6>
-                            </li>
-                            <!-- !sepeti döndürücez -->
-                            <li v-for="value, index in sepet"
-                                class="list-group-item d-flex justify-content-between lh-sm">
-                                <div>
-                                    <h6 class="my-0">{{ value.p_name }}</h6>
-                                    <!-- <small class="text-body-secondary">{{ value.p_desc }}</small> -->
-                                </div>
-                                <span class="text-body-secondary">
-                                    {{ value.quantity }} x {{ value.p_price }}₺
-                                    <i style="cursor: pointer; margin-left: 5px;" @click.self="deleteItem(index)"
-                                        class="bi bi-trash3"></i>
-                                </span>
+                        <SepetItem v-for="(value, index) in sepet" :key="value.p_id" :item="value" :index="index" />
+                        <ul class="list-group mb-3 mt-3">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Ara Toplam (KDV hariç):</span>
+                                <strong>{{ toplamTutar.toLocaleString('tr-TR') }} TL</strong>
                             </li>
                             <li class="list-group-item d-flex justify-content-between">
-                                <span>Ara Toplam(KDV hariç):</span> <strong>{{ toplamTutar }}₺</strong>
+                                <span>KDV (%20):</span>
+                                <strong>{{ (toplamTutar * 0.2).toLocaleString('tr-TR', { maximumFractionDigits: 2 }) }} TL</strong>
                             </li>
                             <li class="list-group-item d-flex justify-content-between">
-                                <span>KDV Tutar(%20):</span> <strong>{{ Math.round(toplamTutar * 0.2 * 100) / 100
-                                    }}₺</strong>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Toplam Tutar:</span> <strong>{{ Math.round(toplamTutar * 1.2 * 100) / 100
-                                    }}₺</strong>
+                                <span>Toplam Tutar:</span>
+                                <strong>{{ (toplamTutar * 1.2).toLocaleString('tr-TR', { maximumFractionDigits: 2 }) }} TL</strong>
                             </li>
                         </ul>
 
                     </div>
                     <!-- !Form Kısmı -->
-                    <div class="col-md-7 col-lg-8">
+                    <div class="col-lg-8">
                         <h4 class="mb-3">Sipariş Bilgileri</h4>
                         <form class="needs-validation" @submit.prevent="checkOut()">
                             <div class="row g-3">
@@ -168,8 +151,10 @@
 <script>
 import { authFetch } from '@/utils/auth';
 import { showAlert } from '@/utils/alert';
+import SepetItem from '@/components/SepetItem.vue';
 
 export default {
+    components: {SepetItem},
     inject: ['sepet'],
     data() {
 
@@ -202,9 +187,6 @@ export default {
     },
 
     methods: {
-        deleteItem(index) {
-            this.sepet.splice(index, 1);
-        },
         async fillUserInfo() {
             const id = sessionStorage.getItem("userId");
             if (!id) return; // misafir kullanıcı için
@@ -220,6 +202,7 @@ export default {
             }
         },
         async checkOut() {
+            if (!this.sepet.length) { showAlert("Sepetin boş, önce ürün eklemelisin.", "warning"); return; }
             try {
                 const res = await fetch(`${this.baseUrl}/api/orders`, { //istekte bulunduğumuz yer.
                     method: "POST", // Post isteğinde bulunduk
@@ -243,7 +226,7 @@ export default {
                 this.sepet.splice(0);
             }
             catch (e) {
-                showAlert(e.message,"danger");
+                showAlert(e.message, "danger");
             }
 
         }

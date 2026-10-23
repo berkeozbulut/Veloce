@@ -18,18 +18,6 @@ import { showAlert, showConfirm } from '@/utils/alert';
                 <span> <b>Admin / </b>{{ username }}</span>
             </div>
             <nav>
-                <!-- <button @click="state = 'products'"
-                    :class="state == 'products' ? 'btn btn-primary mb-3 w-100' : 'btn btn-outline-primary mb-3 w-75'"
-                    class="admin-btn">Ürünler</button>
-                <button @click="state = 'messages'"
-                    :class="state == 'messages' ? 'btn btn-primary mb-3 w-100' : 'btn btn-outline-primary mb-3 w-75'"
-                    class="admin-btn">Mesajlar</button>
-                <button @click="state = 'users'"
-                    :class="state == 'users' ? 'btn btn-primary mb-3 w-100' : 'btn btn-outline-primary mb-3 w-75'"
-                    class="admin-btn">Kullanıcılar</button>
-                <button @click="state = 'orders'"
-                    :class="state == 'orders' ? 'btn btn-primary mb-3 w-100' : 'btn btn-outline-primary mb-3 w-75'"
-                    class="admin-btn">Siparişler</button> -->
                 <button v-for="item in menuItems" :key="item.key" @click="state = item.key"
                     class="btn admin-btn mb-4 w-100"
                     :class="state === item.key ? 'admin-btn-active' : 'admin-btn-passive'">
@@ -38,7 +26,7 @@ import { showAlert, showConfirm } from '@/utils/alert';
                 </button>
             </nav>
 
-            <div class="mt-auto">
+            <div class="mt-auto sidebar-logout">
                 <button @click="logOut()" class="btn admin-btn admin-btn-active">Çıkış
                     Yap</button>
             </div>
@@ -165,5 +153,44 @@ export default {
 
 .bi-person-arms-up {
     margin-right: 3px;
+}
+@media (max-width: 767px) {
+           .admin-sidebar {
+           position: relative;
+       }
+       .sidebar-logout {
+           position: absolute;
+           top: 16px;
+           right: 16px;
+       }
+       .sidebar-logout .btn {
+           padding: 4px 12px;
+           font-size: 0.875rem;
+       }
+    .admin-layout {
+        flex-direction: column;
+    }
+    .admin-sidebar {
+        width: 100%;
+        min-height: auto;
+        border-right: 0;
+        border-bottom: 1px solid black;
+    }
+    .admin-sidebar nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+    }
+    .admin-sidebar nav .admin-btn {
+        width: auto !important;
+        margin-bottom: 0 !important;
+        white-space: nowrap;
+    }
+    .admin-content {
+        padding-left: 0;
+        padding-top: 12px;
+    }
 }
 </style>

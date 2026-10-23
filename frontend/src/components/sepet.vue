@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <div class="sepet-icon">
+    <div class="sepet-icon" v-if="!['/checkout', '/admin'].includes($route.path)">
       <a data-bs-toggle="offcanvas" href="#sepetBar">
         <i v-if="sepet.length" style="color: #991b1b;" class="bi bi-bag-check-fill fs-2"></i>
         <i v-else style="color: #991b1b;" class="bi bi-bag-dash fs-2"></i>
@@ -18,41 +18,32 @@
       </div>
       <hr>
       <div class="offcanvas-body">
-        <div class="row mb-3">
-          <div class="col-4"><b>Ürün:</b></div>
-          <div class="col-3"><b>Adet:</b></div>
-          <div class="col-4"><b>Fiyat:</b></div>
-        </div>
-        <div class="row" v-for="value, index in sepet" :key="value.p_id">
-          <div class="col-4">{{ value.p_name }}</div>
-          <div class="col-3">{{ value.quantity }} Adet</div>
-          <div class="col-4">{{ value.p_price }} TL</div>
-          <div class="col-1">
-            <i style="cursor: pointer;" @click.self="deleteItem(index)" class="bi bi-x-lg"></i>
-          </div>
-        </div>
-        <hr>
-        <div class="row mt-3">
-          <div class="col-7"><b>Ara Toplam (+KDV):</b></div>
-          <!-- !burayı computed la hesapla -->
-          <div class="col-5"><b>{{ toplamTutar }} TL</b></div>
-        </div>
 
-        <div>
-          <button class="btn btn-success w-100 mt-5" style="background-color: #991b1b" @click="goCheckout()">Ödeme
+        <p v-if="!sepet.length" class="text-muted text-center mt-5">Sepetinde henüz ürün yok.</p>
+        <template v-else>
+          <SepetItem v-for="(value, index) in sepet" :key="value.p_id" :item="value" :index="index" />
+          <hr>
+          <div class="d-flex justify-content-between">
+            <b>Ara Toplam (+KDV):</b>
+            <b>{{ toplamTutar.toLocaleString('tr-TR') }} TL</b>
+          </div>
+          <button class="btn w-100 mt-4 text-white" data-bs-dismiss="offcanvas" style="background-color: #991b1b;"
+            @click="goCheckout()">Ödeme
             Sayfasına Git</button>
-        </div>
+        </template>
       </div>
     </div>
   </div>
 </template>
 <script>
-
+import SepetItem from './SepetItem.vue';
 export default {
+  components: { SepetItem },
   inject: ['sepet'],
   data() {
 
     return {
+
     };
 
   },
@@ -75,14 +66,9 @@ export default {
   methods: {
     goCheckout() {
       this.$router.push('/checkout')
-    },
-    deleteItem(index) {
-      this.sepet.splice(index, 1);
     }
   },
 
 };
 
 </script>
-
-<style scoped></style>

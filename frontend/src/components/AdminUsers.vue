@@ -13,42 +13,44 @@
 
     </div>
     <!-- !Kullanıcı ekle buttonu -->
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Ad</th>
-                <th scope="col">Soyad</th>
-                <th scope="col">Email</th>
-                <th scope="col">Parola</th>
-                <th scope="col">Doğum Tarihi</th>
-                <th scope="col">Rol</th>
-                <th scope="col">işlem</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="user, index in users" :key="user.u_id">
-                <th>{{ index + 1 }}</th>
-                <td><input class="form-control" type="text" v-model="user.u_firstName"></td>
-                <td><input class="form-control" type="text" v-model="user.u_lastName"></td>
-                <td><input class="form-control" type="text" v-model="user.u_email"></td>
-                <td><input class="form-control" type="password" placeholder="Yeni şifre (boş = değişmez)"
-                        v-model="user.u_pass"></td>
-                <td><input type="date" class="form-control" v-model="user.u_birthdate"></td>
-                <td><select class="form-select mb-4" v-model="user.u_role">
-                        <option value=0>Kullanıcı</option>
-                        <option value=1>Admin</option>
-                    </select></td>
-                <td>
-                    <button
-                        @click="updateUser(user.u_id, user.u_firstName, user.u_lastName, user.u_email, user.u_pass, user.u_birthdate, user.u_role)"
-                        class="btn btn-outline-primary btn-sm m-1">Güncelle</button>
-                    <button @click="deleteUser(user.u_id)" class="btn btn-outline-danger  btn-sm m-1">Sil</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Ad</th>
+                    <th scope="col">Soyad</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Parola</th>
+                    <th scope="col">Doğum Tarihi</th>
+                    <th scope="col">Rol</th>
+                    <th scope="col">işlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="user, index in users" :key="user.u_id">
+                    <th>{{ index + 1 }}</th>
+                    <td><input class="form-control" type="text" v-model="user.u_firstName"></td>
+                    <td><input class="form-control" type="text" v-model="user.u_lastName"></td>
+                    <td><input class="form-control" type="text" v-model="user.u_email"></td>
+                    <td><input class="form-control" type="password" placeholder="Yeni şifre (boş = değişmez)"
+                            v-model="user.u_pass"></td>
+                    <td><input type="date" class="form-control" v-model="user.u_birthdate"></td>
+                    <td><select class="form-select mb-4" v-model="user.u_role">
+                            <option value=0>Kullanıcı</option>
+                            <option value=1>Admin</option>
+                        </select></td>
+                    <td>
+                        <button
+                            @click="updateUser(user.u_id, user.u_firstName, user.u_lastName, user.u_email, user.u_pass, user.u_birthdate, user.u_role)"
+                            class="btn btn-outline-primary btn-sm m-1">Güncelle</button>
+                        <button @click="deleteUser(user.u_id)" class="btn btn-outline-danger  btn-sm m-1">Sil</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     <!-- !Kullanıcı Ekle Modalı -->
     <div class="modal fade" id="addUser" tabindex="-1">
         <div class="modal-dialog">
@@ -104,7 +106,7 @@ export default {
 
             ],
             baseUrl: "http://localhost:3001",
-           
+
 
         };
 
@@ -225,4 +227,8 @@ export default {
 
 </script>
 
-<style scoped></style>
+<style scoped>
+.table .form-control {
+    min-width: 110px;
+}
+</style>

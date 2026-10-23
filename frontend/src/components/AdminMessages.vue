@@ -4,48 +4,49 @@
       <h4>Messages</h4>
     </div>
   </div>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Ad</th>
+          <th scope="col">Soyad</th>
+          <th scope="col">Email</th>
+          <th scope="col">Mesaj</th>
+          <th scope="col">Oluşturulma Tarihi</th>
+          <th scope="col">Durumu</th>
+          <th scope="col">işlem</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="message, index in messages" :key="message.m_id">
+          <th>{{ index + 1 }}</th>
+          <td><label>{{ message.m_firstName }}</label></td>
+          <td><label>{{ message.m_lastName }}</label></td>
+          <td><label>{{ message.m_email }}</label></td>
+          <td><label>{{ message.m_message }}</label></td>
+          <td><label>{{ message.m_created_at.split(" ")[0] }}</label></td>
+          <td>
+            <div class="d-flex align-items-center gap-2">
+              <select class="form-select" v-model="message.m_status">
+                <option :value="0">Yanıtlanmadı</option>
+                <option :value="1">Yanıtlandı</option>
+              </select>
+              <i v-if="Number(message.m_status) === 1" class="bi bi-check-circle-fill text-success"></i>
+              <i v-else class="bi bi-x-circle-fill text-danger"></i>
+            </div>
+          </td>
+          <td>
+            <button @click="updateMessage(message.m_id, message.m_status)"
+              class="btn btn-outline-primary  btn-sm m-1">Güncelle</button>
+            <a :href="`mailto:${message.m_email}`" class="btn btn-outline-success  btn-sm m-1">Yanıtla</a>
+            <button @click="deleteMessage(message.m_id)" class="btn btn-outline-danger  btn-sm m-1">Sil</button>
+          </td>
 
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Ad</th>
-        <th scope="col">Soyad</th>
-        <th scope="col">Email</th>
-        <th scope="col">Mesaj</th>
-        <th scope="col">Oluşturulma Tarihi</th>
-        <th scope="col">Durumu</th>
-        <th scope="col">işlem</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="message, index in messages" :key="message.m_id">
-        <th>{{ index + 1 }}</th>
-        <td><label>{{ message.m_firstName }}</label></td>
-        <td><label>{{ message.m_lastName }}</label></td>
-        <td><label>{{ message.m_email }}</label></td>
-        <td><label>{{ message.m_message }}</label></td>
-        <td><label>{{ message.m_created_at.split(" ")[0] }}</label></td>
-        <td>
-          <div class="d-flex align-items-center gap-2">
-            <select class="form-select" v-model="message.m_status">
-              <option :value="0">Yanıtlanmadı</option>
-              <option :value="1">Yanıtlandı</option>
-            </select>
-            <i v-if="Number(message.m_status) === 1" class="bi bi-check-circle-fill text-success"></i>
-            <i v-else class="bi bi-x-circle-fill text-danger"></i>
-          </div>
-        </td>
-        <td>
-          <button @click="updateMessage(message.m_id, message.m_status)"
-            class="btn btn-outline-primary  btn-sm m-1">Güncelle</button>
-          <a :href="`mailto:${message.m_email}`" class="btn btn-outline-success  btn-sm m-1">Yanıtla</a>
-          <button @click="deleteMessage(message.m_id)" class="btn btn-outline-danger  btn-sm m-1">Sil</button>
-        </td>
-
-      </tr>
-    </tbody>
-  </table>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 <script>
 import { authFetch } from '@/utils/auth';

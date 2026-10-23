@@ -24,7 +24,7 @@ import '@/assets/main.css';
                 </button>
             </nav>
 
-            <div class="mt-auto">
+            <div class="mt-auto sidebar-logout">
                 <button @click="logout()" class="btn admin-btn admin-btn-active">Çıkış
                     Yap</button>
             </div>
@@ -144,5 +144,52 @@ export default {
 .admin-btn-passive {
     background-color: rgb(84, 84, 84);
     color: white;
+}
+
+@media (max-width: 767px) {
+    .admin-sidebar {
+        position: relative;
+    }
+
+    .sidebar-logout {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+    }
+
+    .sidebar-logout .btn {
+        padding: 4px 12px;
+        font-size: 0.875rem;
+    }
+
+    .admin-layout {
+        flex-direction: column;
+    }
+
+    .admin-sidebar {
+        width: 100%;
+        min-height: auto;
+        border-right: 0;
+        border-bottom: 1px solid black;
+    }
+
+    .admin-sidebar nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .admin-sidebar nav .admin-btn {
+        width: auto !important;
+        margin-bottom: 0 !important;
+        white-space: nowrap;
+    }
+
+    .admin-content {
+        padding-left: 0;
+        padding-top: 12px;
+    }
 }
 </style>
