@@ -101,7 +101,10 @@ export default {
           })
 
         });
-        if (!res.ok) throw new Error("updateMessage endpoint hatası");
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.error);
+        }
 
         const data = await res.json();
         if (data) showAlert(data)
@@ -110,7 +113,7 @@ export default {
 
       }
       catch (e) {
-        console.log(e);
+           showAlert(e.message,"danger")
       }
     },
     async deleteMessage(m_id) {
@@ -125,7 +128,10 @@ export default {
 
 
         });
-        if (!res.ok) throw new Error(res.error);
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.error);
+        }
 
         const data = await res.json();
         if (data) showAlert("Mesaj silindi")
@@ -133,7 +139,7 @@ export default {
         this.getMessages();//ekleme işleminden sonra tekrar verileri çek 
       }
       catch (e) {
-        console.log(e);
+           showAlert(e.message,"danger")
       }
     },
   }

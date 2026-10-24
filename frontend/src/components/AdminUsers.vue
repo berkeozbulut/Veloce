@@ -1,11 +1,11 @@
 <template>
     <div class="row">
-        <div class="col-10">
+        <div class="col">
             <h4>Kullanıcılar</h4>
         </div>
-        <div class="col-2">
-            <button style="float: right;" type="button" class="btn btn-outline-success btn-sm" data-bs-toggle="modal"
-                data-bs-target="#addUser">
+        <div class="col-auto">
+            <button style="float: right;" type="button" class="btn btn-outline-success btn-sm text-nowrap"
+                data-bs-toggle="modal" data-bs-target="#addUser">
                 Kullanıcı Ekle
             </button>
         </div>
@@ -149,7 +149,10 @@ export default {
                     })
 
                 });
-                if (!res.ok) throw new Error("addUser endpoint hatası");
+                if (!res.ok) {
+                    const errorData = await res.json();
+                    throw new Error(errorData.error);
+                }
                 const data = await res.json();
                 showAlert("Kullanıcı eklendi.");
 
@@ -182,7 +185,10 @@ export default {
                         role: u_role
                     })
                 });
-                if (!res.ok) throw new Error("updateUser endpoint hatası");
+                if (!res.ok) {
+                    const errorData = await res.json();
+                    throw new Error(errorData.error);
+                }
 
                 const data = await res.json();
                 if (data) showAlert("Kullanıcı Güncellendi.")
@@ -190,7 +196,7 @@ export default {
                 this.getUsers();//ekleme işleminden sonra tekrar verileri çek 
             }
             catch (e) {
-                console.log(e);
+                showAlert(e.message,"danger")
             }
 
         },
@@ -208,7 +214,10 @@ export default {
                     })
 
                 });
-                if (!res.ok) throw new Error(res.error);
+                if (!res.ok) {
+                    const errorData = await res.json();
+                    throw new Error(errorData.error);
+                }
 
                 const data = await res.json();
                 if (data) showAlert("Kullanıcı Silindi.")
@@ -217,7 +226,7 @@ export default {
                 //before get datas  
             }
             catch (e) {
-                console.log(e);
+                   showAlert(e.message,"danger")
             }
         },
 

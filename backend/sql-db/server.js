@@ -248,6 +248,7 @@ app.put("/api/users/:id/profile", verifyToken, isSelfOrAdmin, async (req, res) =
         if (result.affectedRows === 0) return res.status(404).json({ error: "Kullanıcı bulunamadı" });
         res.status(200).json({ message: "Bilgilerin güncellendi" });
     } catch (err) {
+        if (err.code === "ER_DUP_ENTRY") return res.status(409).json({ error: "Bu e-posta zaten kayıtlı" });
         res.status(500).json({ error: err.message });
     }
 });
@@ -289,6 +290,7 @@ app.post("/api/users", verifyToken, isAdmin, async (req, res) => {
         // const [rows] = await db.query("SELECT * FROM products WHERE p_id=?", [result.id]);
         res.status(201).json(firstName + " " + lastName + " adlı kullanıcı eklendi");
     } catch (err) {
+        if (err.code === "ER_DUP_ENTRY") return res.status(409).json({ error: "Bu e-posta zaten kayıtlı" });
         res.status(500).json({ error: err.message });
     }
 });
@@ -319,8 +321,8 @@ app.put("/api/users/:id", verifyToken, isAdmin, async (req, res) => {
 
         res.status(200).json(firstName + " " + lastName + " isimli kullanıcı güncellendi");
     } catch (err) {
-
-        res.status(500).json({ error: "Sunucu hatası" });
+        if (err.code === "ER_DUP_ENTRY") return res.status(409).json({ error: "Bu e-posta zaten kayıtlı" });
+        res.status(500).json({ error: err.message});
 
     }
 
@@ -500,6 +502,7 @@ app.post("/api/register", async (req, res) => {
         );
         res.status(201).json(firstName + " " + lastName + " adlı kullanıcı eklendi");
     } catch (err) {
+        if (err.code === "ER_DUP_ENTRY") return res.status(409).json({ error: "Bu e-posta zaten kayıtlı" });
         res.status(500).json({ error: err.message });
     }
 });
@@ -542,7 +545,7 @@ app.post("/api/getUsername", verifyToken, async (req, res) => {
 });
 
 app.get("/api/me", verifyToken, (req, res) => {
-    res.status(200).json({id: req.user.id, role: req.user.role});
+    res.status(200).json({ id: req.user.id, role: req.user.role });
 });
 
 // !------------------------------------------

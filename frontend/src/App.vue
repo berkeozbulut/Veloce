@@ -343,7 +343,7 @@ export default {
                         document.getElementById('loginlink')?.click()  // for get login modal 
                     }
                     catch (e) {
-                        console.log(e.message);
+                        showAlert(e.message,"danger");
                     }
                 }
                 else {

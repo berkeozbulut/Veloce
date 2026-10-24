@@ -1,10 +1,10 @@
 <template>
   <div class="row">
-    <div class="col-10">
+    <div class="col">
       <h4>Ürünler</h4>
     </div>
-    <div class="col-2">
-      <button style="float: right;" type="button" class="btn btn-outline-success btn-sm" data-bs-toggle="modal"
+    <div class="col-auto">
+      <button style="float: right;" type="button" class="btn btn-outline-success btn-sm text-nowrap" data-bs-toggle="modal"
         data-bs-target="#addProduct">
         Ürün Ekle
       </button>

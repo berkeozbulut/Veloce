@@ -89,13 +89,16 @@ export default {
                         status: o_status
                     })
                 });
-                if (!res.ok) throw new Error("updateOrder endpoint hatası");
+                if (!res.ok) {
+                    const errorData = await res.json();
+                    throw new Error(errorData.error);
+                }
 
                 const data = await res.json();
                 if (data) showAlert("Sipariş Durumu Güncellendi.")
             }
             catch (e) {
-                console.log(e);
+                   showAlert(e.message,"danger")
             }
         },
     }
