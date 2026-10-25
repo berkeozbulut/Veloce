@@ -87,7 +87,8 @@ app.get("/api/products/:id", verifyToken, isAdmin, async (req, res) => {
 //? PRODUCTS EKLE - POST - SQL sorgu : INSERT INTO
 app.post("/api/products", verifyToken, isAdmin, upload.single("image"), async (req, res) => {
     try {
-        const { name, stock, price, desc, u_id } = req.body;
+        const { name, stock, price, desc } = req.body;
+        const u_id = req.user.id;
         if (!name || stock === undefined || stock === "" || !(Number(price) > 0) || !desc || !desc.trim()) return res.status(400).json({ error: "Hatalı veri geldi" });
         const image = req.file ? "/uploads/" + req.file.filename : null;
         const [result] = await db.query(
@@ -557,14 +558,7 @@ app.post("/api/getUsername", verifyToken, async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
-
-app.get("/api/me", verifyToken, (req, res) => {
-    res.status(200).json({ id: req.user.id, role: req.user.role });
-});
-
-// !------------------------------------------
-
-// !Products Page
+//? PRODUCTS PAGE
 app.get("/api/productPage", async (req, res) => {
     try {
         const [rows] = await db.query("SELECT * FROM products WHERE p_active=1 ORDER BY p_id ASC",);
@@ -573,6 +567,13 @@ app.get("/api/productPage", async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+app.get("/api/me", verifyToken, (req, res) => {
+    res.status(200).json({ id: req.user.id, role: req.user.role });
+});
+
+// !------------------------------------------
+
+
 
 const PORT = process.env.PORT;
 

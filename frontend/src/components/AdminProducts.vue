@@ -131,7 +131,6 @@ export default {
         formData.append("stock", this.newProduct[0].p_stock);
         formData.append("price", this.newProduct[0].p_price);
         formData.append("desc", this.newProduct[0].p_desc);
-        formData.append("u_id", sessionStorage.getItem("userId"));
         if (this.selectedFile) formData.append("image", this.selectedFile);
 
         const res = await authFetch(`${this.baseUrl}/api/products`, {

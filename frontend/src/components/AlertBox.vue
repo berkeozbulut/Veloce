@@ -8,8 +8,9 @@
         <p>{{ alert.message }}</p>
         <button v-if="alert.mode === 'alert'" type="button" class="btn btn-veloce" @click="close">Tamam</button>
         <div v-else class="d-flex justify-content-center gap-2">
-            <button type="button" class="btn btn-outline-secondary px-4" @click="answer(false)">Vazgeç</button>
             <button type="button" class="btn btn-veloce" @click="answer(true)">Evet</button>
+            <button type="button" class="btn btn-outline-secondary px-4" @click="answer(false)">Vazgeç</button>
+
         </div>
     </div>
 </template>
@@ -25,13 +26,13 @@ export default {
             return icons[this.alert.variant];
         }
     },
-methods: {
-    close() {
-        if (this.alert.mode === "confirm") answerConfirm(false);
-        else closeAlert();
-    },
-    answer(value) { answerConfirm(value); }
-}
+    methods: {
+        close() {
+            if (this.alert.mode === "confirm") answerConfirm(false);
+            else closeAlert();
+        },
+        answer(value) { answerConfirm(value); }
+    }
 }
 </script>
 <style scoped>

@@ -15,7 +15,8 @@
             <h2 class="display-5">Ekipmanını Seç</h2>
             <p class="lead">Kasktan monta, eldivenden bota; sürüş tarzına uygun ekipmanları incele. Her ürünün stok
               durumunu ve fiyatını anında gör, beğendiğini tek tıkla sepetine ekle.</p>
-            <RouterLink to="/product" class="btn btn-light mt-3">Ürünleri İncele</RouterLink>
+            <RouterLink to="/product" class="btn btn-light mt-3" data-bs-toggle="modal" data-bs-target="#registerModal"
+              style="background-color: white;">Ürünleri İncele</RouterLink>
           </div>
         </div>
         <div class="bg-body-tertiary pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden ">

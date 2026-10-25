@@ -141,7 +141,7 @@ export default {
 }
 
 .admin-btn-passive {
-    background-color: rgb(84, 84, 84);
+    background-color:#3a3a3a;
     color: white;
 }
 
