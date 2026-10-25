@@ -71,7 +71,6 @@
             <textarea class="form-control mb-2" v-model="newProduct[0].p_desc" required
               placeholder="ürünü anlatın"></textarea>
             <label>Resim</label>
-            <!-- !multer yapısı ile jpeg ekle -->
             <input class="form-control mb-2" type="file" accept="image/*" ref="fileInput" @change="onFileChange">
             <button style="margin: 5px; margin-bottom: 3px; width: 100;" class="btn btn-success "
               type="submit">Ekle</button>
@@ -127,19 +126,6 @@ export default {
 
     async addProduct() { // POST - Ürün Ekleme
       try {
-
-        // const res = await fetch(`${this.baseUrl}/api/products`, { //istekte bulunduğumuz yer.
-        //   method: "POST", // Post isteğinde bulunduk
-        //   headers: {
-        //     "Content-type": "application/json"
-        //   },
-        //   body: JSON.stringify({ // istekle beraber neleri yolluyorsun?
-        //     name: this.newProduct[0].p_name,
-        //     stock: this.newProduct[0].p_stock,
-        //     price: this.newProduct[0].p_price,
-        //     desc: this.newProduct[0].p_desc,
-        //     u_id: sessionStorage.getItem("userId")
-        //   })
         const formData = new FormData();
         formData.append("name", this.newProduct[0].p_name);
         formData.append("stock", this.newProduct[0].p_stock);
@@ -177,21 +163,6 @@ export default {
     async updateProduct(p_id, p_name, p_stock, p_price, p_desc) {
 
       try {
-
-        // const res = await fetch(`${this.baseUrl}/api/products/${p_id}`, { //istekte bulunduğumuz yer.
-        //   method: "PUT", // Put isteğinde bulunduk
-        //   headers: {
-        //     "Content-type": "application/json"
-        //   },
-        //   body: JSON.stringify({ // istekle beraber neleri yolluyorsun?
-        //     name: p_name,
-        //     stock: p_stock,
-        //     price: p_price,
-        //     desc: p_desc
-
-        //   })
-
-        // });
         const formData = new FormData();
         formData.append("name", p_name);
         formData.append("stock", p_stock);

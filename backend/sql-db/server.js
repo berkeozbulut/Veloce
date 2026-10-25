@@ -1,16 +1,18 @@
-require("dotenv").config(); // env dosyamızı import ettik 
+require("dotenv").config({ path: __dirname + "/.env" }); // env dosyamızı import ettik 
 const express = require("express");
-
 const cors = require("cors");
-
-const app = express();
-
-app.use(cors());
-
 const db = require("./db"); // db.js dosyamızı import ettik 
-// ? Multer Yapısı
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 const multer = require("multer");
 const path = require("path");
+
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+// ? Multer Yapısı
 
 // Dosya nereye ve hangi isimle kaydedilsin
 const storage = multer.diskStorage({
@@ -26,10 +28,6 @@ const upload = multer({
 
 // uploads klasörünü dışarı aç: http://localhost:3001/uploads/dosya.png
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-app.use(express.json());
-
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
 
 //? Auth MiddleWares
 
@@ -97,8 +95,8 @@ app.post("/api/products", verifyToken, isAdmin, upload.single("image"), async (r
             [name.trim(), 1, stock, price, 0, desc.trim(), u_id, image]
         );
 
-        // const [rows] = await db.query("SELECT * FROM products WHERE p_id=?", [result.id]);
         res.status(201).json(name + " " + "adlı ürün eklendi");
+
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -287,7 +285,6 @@ app.post("/api/users", verifyToken, isAdmin, async (req, res) => {
             [firstName.trim(), lastName.trim(), email.trim(), hashedPass, birthdate, role]
         );
 
-        // const [rows] = await db.query("SELECT * FROM products WHERE p_id=?", [result.id]);
         res.status(201).json(firstName + " " + lastName + " adlı kullanıcı eklendi");
     } catch (err) {
         if (err.code === "ER_DUP_ENTRY") return res.status(409).json({ error: "Bu e-posta zaten kayıtlı" });
@@ -317,12 +314,11 @@ app.put("/api/users/:id", verifyToken, isAdmin, async (req, res) => {
 
         );
 
-        // const [rows] = await db.query("SELECT * FROM products WHERE p_id=?", [id]);
 
         res.status(200).json(firstName + " " + lastName + " isimli kullanıcı güncellendi");
     } catch (err) {
         if (err.code === "ER_DUP_ENTRY") return res.status(409).json({ error: "Bu e-posta zaten kayıtlı" });
-        res.status(500).json({ error: err.message});
+        res.status(500).json({ error: err.message });
 
     }
 
@@ -405,7 +401,7 @@ app.post("/api/orders", async (req, res) => {
             return res.status(400).json({ error: "Sipariş bilgileri eksik" });
         if (!amount || amount <= 0)
             return res.status(400).json({ error: "Geçersiz tutar" });
-        // !burayı incele
+
         const orderNo = "#KS" + Date.now(); // tablodaki #KS formatı
 
         const products = sepet.map(urun => urun.p_name + " x" + urun.quantity).join(", ");

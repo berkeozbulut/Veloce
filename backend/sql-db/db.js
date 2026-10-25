@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config({ path: __dirname + "/.env" }); // env dosyamızı import ettik 
 const mysql = require("mysql2/promise");
 
 const pool = mysql.createPool({

@@ -119,14 +119,8 @@ showAlert("Ürün sepete eklendi! Sepet kısmında bulabilirsin :D");
   text-align: center;
 }
 
-
-
-/* ! bir bakarsın en iyisi olmadı  */
 .sepete-ekle:hover {
   background-color: #991b1b;
-  /* bir daha bak */
-  /* transition: width 0.3s ease;
-transition-delay: 0.3s; */
 }
 
 .urun-gorsel {

@@ -56,10 +56,6 @@ export default {
   data() {
 
     return {
-      // mesaj ekle butonu aktifleştirdiğinde kullan
-      // newMessage: [
-      //   { m_firstName: "", m_lastName: "", m_email: "", m_message: "" }
-      // ],
       messages: [],
       baseUrl: "http://localhost:3001",
       error: null,
@@ -121,7 +117,7 @@ export default {
       try {
 
         const res = await authFetch(`${this.baseUrl}/api/messages/${m_id}`, { //istekte bulunduğumuz yer.
-          method: "DELETE", // Call delete
+          method: "DELETE",
           headers: {
             "Content-type": "application/json"
           },

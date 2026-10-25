@@ -52,7 +52,7 @@ import { showAlert } from './utils/alert';
                             <li class="nav-item">
                                 <RouterLink class="navlink" to="/product">Ürünlerimiz</RouterLink>
                             </li>
-                            <!-- !buradan itibaren sağa yapıştır ayrı bir bölüm olsun  -->
+
                             <li class="nav-item">
                                 <RouterLink class="navlink" to="/about">Hakkımızda</RouterLink>
                             </li>
@@ -308,7 +308,6 @@ export default {
             }
         },
 
-        // ! boş değer gittiğinde pass uyarısı veriyor onun dışında doğru ama bir bak 
         async register() {
             if (isPasswordConfirmed(this.user[0].pass, this.user[0].passRepeat, this.user[0].check)) {
                 if (isValidPassword(this.user[0].pass)) {

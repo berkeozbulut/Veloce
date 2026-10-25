@@ -162,9 +162,7 @@ export default {
             order: [
                 { TC: "", firstName: "", lastName: "", email: "", phone: "", address: "", country: "Türkiye", state: "İstanbul", zip: "", }
             ],
-            payment: [{
-                // ! burayı bağla 
-            }],
+
             baseUrl: "http://localhost:3001",
 
         };

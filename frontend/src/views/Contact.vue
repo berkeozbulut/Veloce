@@ -119,9 +119,6 @@ export default {
 
         const data = await res.json();
         if (data) this.status = "correct";
-        // else this.status = "wrong";
-        // this.status = data; // server.js ten dönen res değerini buraya ata.
-        //server.js ten basarili veya basarisiz değerlerini döndürücez
 
         this.newMessage[0].firstName = "";
         this.newMessage[0].lastName = "";
