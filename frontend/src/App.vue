@@ -72,65 +72,71 @@ import { showAlert } from './utils/alert';
         <RouterView />
     </div>
     <!-- !Footer Part -->
-    <footer class="container py-5 bg-body-tertiary mt-4 ">
-        <div class="row">
-            <div class="col-12 col-md">
-                <RouterLink class="navbar-brand" to="/">
-                    <img :src="logo" alt="Veloce Logo" style="height: 80px;">
-                </RouterLink>
+    <div class="container">
+        <footer class="py-5 bg-body-tertiary mt-4 px-4 ">
+            <div class="row text-center text-md-start gy-4 ">
+                <div class="col-12 col-md">
+                    <RouterLink class="navbar-brand" to="/">
+                        <img :src="logo" alt="Veloce Logo" style="height: 80px;">
+                    </RouterLink>
+                </div>
+                <div class="col-4 col-md">
+                    <h5>Keşfet</h5>
+                    <ul class="list-unstyled text-small">
+                        <li>
+                            <router-link to="/" class="link-secondary text-decoration-none">Anasayfa</router-link>
+                        </li>
+                        <li>
+                            <router-link to="/blog" class="link-secondary text-decoration-none">Blog</router-link>
+                        </li>
+                        <li>
+                            <router-link to="/product"
+                                class="link-secondary text-decoration-none">Ürünlerimiz</router-link>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-4 col-md">
+                    <h5>Ekipman</h5>
+                    <ul class="list-unstyled text-small">
+                        <li>
+                            <router-link to="/product" class="link-secondary text-decoration-none">Tüm
+                                Ürünler</router-link>
+                        </li>
+                        <li>
+                            <router-link :to="{ path: '/product', query: { q: 'kask' } }"
+                                class="link-secondary text-decoration-none">Kasklar</router-link>
+                        </li>
+                        <li>
+                            <router-link :to="{ path: '/product', query: { q: 'mont' } }"
+                                class="link-secondary text-decoration-none">Montlar</router-link>
+                        </li>
+                        <li>
+                            <router-link :to="{ path: '/product', query: { q: 'eldiven' } }"
+                                class="link-secondary text-decoration-none">Eldivenler</router-link>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-4 col-md">
+                    <h5>Kurumsal</h5>
+                    <ul class="list-unstyled text-small">
+                        <li>
+                            <router-link to="/about"
+                                class="link-secondary text-decoration-none">Hakkımızda</router-link>
+                        </li>
+                        <li>
+                            <router-link to="/contact" class="link-secondary text-decoration-none">Bize
+                                Ulaşın</router-link>
+                        </li>
+                        <li>
+                            <router-link to="/faq" class="link-secondary text-decoration-none">Sıkça Sorulan
+                                Sorular</router-link>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="col-6 col-md">
-                <h5>Keşfet</h5>
-                <ul class="list-unstyled text-small">
-                    <li>
-                        <router-link to="/" class="link-secondary text-decoration-none">Anasayfa</router-link>
-                    </li>
-                    <li>
-                        <router-link to="/blog" class="link-secondary text-decoration-none">Blog</router-link>
-                    </li>
-                    <li>
-                        <router-link to="/product" class="link-secondary text-decoration-none">Ürünlerimiz</router-link>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-6 col-md">
-                <h5>Ekipman</h5>
-                <ul class="list-unstyled text-small">
-                    <li>
-                        <router-link to="/product" class="link-secondary text-decoration-none">Tüm Ürünler</router-link>
-                    </li>
-                    <li>
-                        <router-link :to="{ path: '/product', query: { q: 'kask' } }"
-                            class="link-secondary text-decoration-none">Kasklar</router-link>
-                    </li>
-                    <li>
-                        <router-link :to="{ path: '/product', query: { q: 'mont' } }"
-                            class="link-secondary text-decoration-none">Montlar</router-link>
-                    </li>
-                    <li>
-                        <router-link :to="{ path: '/product', query: { q: 'eldiven' } }"
-                            class="link-secondary text-decoration-none">Eldivenler</router-link>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-6 col-md">
-                <h5>Kurumsal</h5>
-                <ul class="list-unstyled text-small">
-                    <li>
-                        <router-link to="/about" class="link-secondary text-decoration-none">Hakkımızda</router-link>
-                    </li>
-                    <li>
-                        <router-link to="/contact" class="link-secondary text-decoration-none">Bize Ulaşın</router-link>
-                    </li>
-                    <li>
-                        <router-link to="/faq" class="link-secondary text-decoration-none">Sıkça Sorulan
-                            Sorular</router-link>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <p class="text-muted text-center small mt-4 mb-0">© 2026 VELOCE. Tüm hakları saklıdır.</p>
-    </footer>
+            <p class="text-muted text-center small mt-4 mb-0">© 2026 VELOCE. Tüm hakları saklıdır.</p>
+        </footer>
+    </div>
     <!--! sepet-->
     <Sepet />
     <!--! Login model -->
@@ -342,15 +348,15 @@ export default {
                         document.getElementById('loginlink')?.click()  // for get login modal 
                     }
                     catch (e) {
-                        showAlert(e.message,"danger");
+                        showAlert(e.message, "danger");
                     }
                 }
                 else {
-                    showAlert("En az 8 karakter ve en az 1 büyük harf ve '!@#$%^&*.' sembollerinden birini kullanmayı unutma :) ","warning")
+                    showAlert("En az 8 karakter ve en az 1 büyük harf ve '!@#$%^&*.' sembollerinden birini kullanmayı unutma :) ", "warning")
                 }
             }
             else {
-                showAlert("Ya tick atmadın ya da girilen parola uyuşmadı :(","warning")
+                showAlert("Ya tick atmadın ya da girilen parola uyuşmadı :(", "warning")
             }
         },
         async login() {

@@ -22,7 +22,7 @@
                     <input v-model="profile.u_birthdate" type="date" class="form-control" required>
                 </div>
                 <div class="col-12">
-                    <button type="submit" class="btn btn-dark">Bilgilerimi Güncelle</button>
+                    <button type="submit" class="btn btn-veloce">Bilgilerimi Güncelle</button>
                 </div>
             </form>
         </div>
@@ -46,7 +46,7 @@
                     <input v-model="passwords.newPassRepeat" type="password" class="form-control" required>
                 </div>
                 <div class="col-12">
-                    <button type="submit" class="btn btn-change-pass">Şifremi Değiştir</button>
+                    <button type="submit" class="btn btn-veloce">Şifremi Değiştir</button>
                 </div>
             </form>
         </div>
@@ -164,14 +164,12 @@ export default {
 };
 </script>
 <style scoped>
-.btn-change-pass {
-
-    width: 15%;
-    border: 2px solid #991b1b;
-    border-color: #991b1b;
-    border-radius: 15px;
-    background-color: #991b1b;
-    color: white;
-    padding: 6px 20px;
-}
+   .btn-veloce {
+       background-color: #991b1b;
+       color: white;
+   }
+   .btn-veloce:hover {
+       background-color: #7f1d1d;
+       color: white;
+   }
 </style>
