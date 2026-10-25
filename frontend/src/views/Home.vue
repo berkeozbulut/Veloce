@@ -25,7 +25,7 @@
               <h2 class="display-5">Hesabını Oluştur</h2>
               <p class="lead">Üye ol, siparişlerini tek bir panelden yönet. Toplam harcamanı ve son siparişini özet
                 ekranında gör, kişisel bilgilerini dilediğin zaman güncelle.</p>
-              <button class="btn btn-dark mt-3" data-bs-toggle="modal" data-bs-target="#registerModal">Hemen Üye
+              <button class="btn btn-dark mt-3" data-bs-toggle="modal" data-bs-target="#registerModal" style="background-color: #3a3a3a;">Hemen Üye
                 Ol</button>
             </div>
           </div>
@@ -45,16 +45,6 @@
     </main>
   </div>
 </template>
-<!-- 
-          <div class="bg-veloce pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-            <div class="my-3 py-3">
-              <h2 class="display-5">Bize Ulaş</h2>
-              <p class="lead">Bir ürün hakkında sorun mu var, ya da önerin mi? İletişim formundan bize yaz; ekibimiz en
-                kısa sürede dönüş yapsın.</p>
-              <RouterLink to="/contact" class="btn btn-light mt-3">İletişime Geç</RouterLink>
-            </div>
-          </div> -->
-
 <script>
 
 export default {

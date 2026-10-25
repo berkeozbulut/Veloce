@@ -25,8 +25,7 @@ import '@/assets/main.css';
             </nav>
 
             <div class="mt-auto sidebar-logout">
-                <button @click="logout()" class="btn admin-btn admin-btn-active">Çıkış
-                    Yap</button>
+                <button @click="logOut()" class="btn admin-btn" style="background-color: #3a3a3a; color: white;"> Çıkış Yap <i class="bi bi-box-arrow-right"></i></button>
             </div>
         </aside>
 

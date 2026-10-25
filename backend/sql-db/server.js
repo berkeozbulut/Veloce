@@ -393,29 +393,47 @@ app.get("/api/orders/user/:id/summary", verifyToken, isSelfOrAdmin, async (req, 
 //? Add ORDERS - POST - SQL sorgu : INSERT INTO
 app.post("/api/orders", async (req, res) => {
     try {
-        const { sepet, order, amount, u_id } = req.body; // checkOut'un gönderdiği 4 alan
+        const { sepet, order, u_id } = req.body; 
 
         if (!Array.isArray(sepet) || sepet.length === 0)
             return res.status(400).json({ error: "Sepet boş" });
         if (!order || !order.firstName || !order.lastName || !order.address)
             return res.status(400).json({ error: "Sipariş bilgileri eksik" });
-        if (!amount || amount <= 0)
-            return res.status(400).json({ error: "Geçersiz tutar" });
 
-        const orderNo = "#KS" + Date.now(); // tablodaki #KS formatı
+        // Sepetteki ürünlerin gerçek fiyat ve stoklarını veritabanından oku
+        const ids = sepet.map(urun => Number(urun.p_id));
+        const [rows] = await db.query(
+            "SELECT p_id, p_name, p_price, p_stock FROM products WHERE p_id IN (?)",
+            [ids]
+        );
 
-        const products = sepet.map(urun => urun.p_name + " x" + urun.quantity).join(", ");
-        const pids = sepet.map(urun => urun.p_id).join(",");
+        let araToplam = 0;
+        for (const urun of sepet) {
+            const dbUrun = rows.find(r => r.p_id === Number(urun.p_id));
+            const adet = Number(urun.quantity);
+
+            if (!dbUrun) return res.status(400).json({ error: "Sepetteki bir ürün artık mevcut değil" });
+            if (!Number.isInteger(adet) || adet < 1) return res.status(400).json({ error: "Geçersiz adet" });
+            if (adet > dbUrun.p_stock) return res.status(400).json({ error: dbUrun.p_name + " için yeterli stok yok" });
+
+            araToplam += Number(dbUrun.p_price) * adet;
+        }
+        const amount = Math.round(araToplam * 1.2 * 100) / 100; // KDV dahil, 2 hane
+
+        const orderNo = "#KS" + Date.now();
+        const products = sepet.map(urun => {
+            const dbUrun = rows.find(r => r.p_id === Number(urun.p_id));
+            return dbUrun.p_name + " x" + urun.quantity;
+        }).join(", ");
+        const pids = ids.join(",");
 
         await db.query(
             "INSERT INTO orders (o_no, o_products, o_pids, o_person, o_address, o_amount, o_status, u_id) VALUES (?,?,?,?,?,?,?,?)",
             [orderNo, products, pids, order.firstName.trim() + " " + order.lastName.trim(), order.address.trim() + " / " + order.state, amount, 1, u_id || null]
-
         );
         for (const urun of sepet) {
-            await db.query("UPDATE products SET p_stock = p_stock - ? WHERE p_id = ?", [urun.quantity, urun.p_id]);
+            await db.query("UPDATE products SET p_stock = p_stock - ? WHERE p_id = ?", [Number(urun.quantity), Number(urun.p_id)]);
         }
-
 
         res.status(201).json({ message: "Siparişin alındı! No: " + orderNo, orderNo });
     } catch (err) {

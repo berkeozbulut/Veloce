@@ -28,7 +28,7 @@ import { showAlert } from './utils/alert';
                         <button type="button" class="navlink border-0 bg-transparent" @click="pageRouter()"
                             style="color: #991b1b;">
                             <span v-if="isLoggedIn">
-                                <i class="bi bi-person fs-3"></i>
+                                <i class="bi bi-person-check fs-3"></i>
                             </span>
                             <span v-else class="text-nowrap">
                                 <i class="bi bi-person-raised-hand fs-5"></i> Hi!

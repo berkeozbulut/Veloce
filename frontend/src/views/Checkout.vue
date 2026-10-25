@@ -210,7 +210,6 @@ export default {
                     body: JSON.stringify({ // istekle beraber neleri yolluyorsun?
                         sepet: this.sepet,
                         order: this.order[0],
-                        amount: this.toplamTutar * 1.2,
                         u_id: sessionStorage.getItem("userId")
                     })
 
