@@ -36,7 +36,7 @@
             <h2 class="display-5">Siparişini Takip Et</h2>
             <p class="lead">Siparişin hazırlanıyor mu, kargoda mı, teslim mi edildi? Hesabından her adımı takip et.
               Üye olmadan da alışveriş yapabilirsin.</p>
-            <button class="btn btn-light mt-3" data-bs-toggle="modal" data-bs-target="#loginModal">Giriş Yap</button>
+            <button class="btn mt-3" data-bs-toggle="modal" data-bs-target="#loginModal" style="background-color: #991b1b; color: white;">Giriş Yap</button>
           </div>
         </div>
       </div>

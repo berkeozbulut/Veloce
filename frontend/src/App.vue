@@ -175,7 +175,7 @@ import { showAlert } from './utils/alert';
                                     class="form-check-label" for="exampleCheck1">Gerçekten
                                     robot değilim</label>
                             </div>
-                            <button type="submit" class="btn btn-dark" style="width: 100%;"><i
+                            <button type="submit" class="btn tick-button text-center d-flex justify-content-center d-block mx-auto"><i
                                     class="bi bi-check2"></i></button>
                         </form>
                     </div>
@@ -233,7 +233,7 @@ import { showAlert } from './utils/alert';
                                 <label style="cursor: pointer;" class="form-check-label" for="exampleCheck1">Gerçekten
                                     robot değilim</label>
                             </div>
-                            <button type="submit" class="btn btn-dark" style="width: 100%;"><i
+                            <button type="submit" class="btn tick-button text-center d-flex justify-content-center d-block mx-auto"><i
                                     class="bi bi-check2"></i></button>
                         </form>
                     </div>
@@ -416,5 +416,12 @@ export default {
     cursor: pointer;
     border: 0px;
     border-radius: 10px;
+}
+.tick-button{
+    
+    width: 80%;
+    background-color: #991b1b;
+    color: white;
+    text-align: center;
 }
 </style>

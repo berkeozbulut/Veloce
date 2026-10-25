@@ -41,7 +41,7 @@
           <p class="card-text text-muted blog-summary">{{ post.summary }}</p>
           <div class="d-flex justify-content-between align-items-center mt-auto">
             <small class="text-muted"><i class="bi bi-clock"></i> {{ post.readTime }} dk</small>
-            <button type="button" class="btn btn-sm btn-veloce" data-bs-toggle="modal" data-bs-target="#blogModal"
+            <button type="button" class="btn btn btn-veloce" data-bs-toggle="modal" data-bs-target="#blogModal"
               @click="selectedPost = post">Yazıyı Oku</button>
           </div>
         </div>

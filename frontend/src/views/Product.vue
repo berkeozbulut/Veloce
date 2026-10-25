@@ -12,14 +12,14 @@
       <div class="col-12 col-sm-6 col-lg-4 mt-3" v-for="p in filteredProducts" :key="p.p_id">
         <div class="card urun-karti h-100">
           <img class="card-img-top urun-gorsel" v-if="p.p_images" :src="baseUrl + p.p_images" :alt="p.p_name">
-          <div class="card-body">
+          <div class="card-body d-flex flex-column">
             <h5 class="card-title">{{ p.p_name }}</h5>
             <p v-if="p.p_stock" class="card-text"><b>{{ p.p_stock }}</b> Adet Mevcut!</p>
             <p v-if="p.p_stock" class="card-text"><b>Fiyat: {{ Number(p.p_price).toLocaleString('tr-TR') }} TL</b></p>
             <p v-if="p.p_stock" class="text-muted kdv-notu">+KDV</p>
-            <button v-if="p.p_stock" @click="addCart(p.p_id)" class="btn btn-outline-dark sepete-ekle">Sepete
+            <button v-if="p.p_stock" @click="addCart(p.p_id)" class="btn btn-outline-dark sepete-ekle mt-auto align-self-center">Sepete
               Ekle</button>
-            <button v-else type="button"
+            <button v-else type="button" class="mt-auto align-self-center"
               style="background-color: #991b1b; border-color: #991b1b; color: white; border: 0px; border-radius: 10px; padding: 10px; width: 100px;"
               disabled>Stok Yok!</button>
           </div>
