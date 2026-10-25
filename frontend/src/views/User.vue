@@ -92,7 +92,7 @@ export default {
                 console.log(e);
             }
         },
-        async logout() {
+        async logOut() {
             if (!(await showConfirm("Çıkış yapmak istediğine emin misin?"))) return;
             clearSession();
             this.$router.push("/");

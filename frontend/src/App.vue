@@ -73,16 +73,16 @@ import { showAlert } from './utils/alert';
     </div>
     <!-- !Footer Part -->
     <div class="container">
-        <footer class="py-5 bg-body-tertiary mt-4 px-4 ">
+        <footer class="py-3 bg-body-tertiary mt-4 px-4 ">
             <div class="row text-center text-md-start gy-4 ">
-                <div class="col-12 col-md">
+                <div class="col-12 col-md d-flex justify-content-center align-items-center">
                     <RouterLink class="navbar-brand" to="/">
                         <img :src="logo" alt="Veloce Logo" style="height: 80px;">
                     </RouterLink>
                 </div>
                 <div class="col-4 col-md">
-                    <h5>Keşfet</h5>
-                    <ul class="list-unstyled text-small">
+                    <h6>Keşfet</h6>
+                    <ul class="list-unstyled small">
                         <li>
                             <router-link to="/" class="link-secondary text-decoration-none">Anasayfa</router-link>
                         </li>
@@ -96,8 +96,8 @@ import { showAlert } from './utils/alert';
                     </ul>
                 </div>
                 <div class="col-4 col-md">
-                    <h5>Ekipman</h5>
-                    <ul class="list-unstyled text-small">
+                    <h6>Ekipman</h6>
+                    <ul class="list-unstyled small">
                         <li>
                             <router-link to="/product" class="link-secondary text-decoration-none">Tüm
                                 Ürünler</router-link>
@@ -117,8 +117,8 @@ import { showAlert } from './utils/alert';
                     </ul>
                 </div>
                 <div class="col-4 col-md">
-                    <h5>Kurumsal</h5>
-                    <ul class="list-unstyled text-small">
+                    <h6>Kurumsal</h6>
+                    <ul class="list-unstyled small">
                         <li>
                             <router-link to="/about"
                                 class="link-secondary text-decoration-none">Hakkımızda</router-link>
