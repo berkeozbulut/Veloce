@@ -47,12 +47,12 @@ Bu proje, full stack geliştirme eğitimim sürecinde frontend, backend ve verit
 
 ## Kurulum
 
-**Gereksinimler:** [Node.js](https://nodejs.org) (22.18 veya üzeri), [XAMPP](https://www.apachefriends.org) (MySQL için), Git
+**Gereksinimler:** [Node.js](https://nodejs.org) 22 LTS (22.18+) veya 24 LTS (24.12+), [XAMPP](https://www.apachefriends.org) (MySQL için), Git
 
 **1. Projeyi indirin**
 ```bash
-git clone <repo-adresi>
-cd VELOCE
+git clone https://github.com/Berke3299/Veloce.git
+cd Veloce
 ```
 
 **2. Veritabanını kurun**
