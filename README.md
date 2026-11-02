@@ -51,7 +51,7 @@ Bu proje, full stack geliştirme eğitimim sürecinde frontend, backend ve verit
 
 **1. Projeyi indirin**
 ```bash
-git clone https://github.com/Berke3299/Veloce.git
+git clone https://github.com/berkeozbulut/Veloce.git
 cd Veloce
 ```
 
