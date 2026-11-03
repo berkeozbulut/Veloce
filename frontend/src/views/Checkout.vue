@@ -221,6 +221,7 @@ export default {
                 const data = await res.json();
                 showAlert(data.message);
                 this.sepet.splice(0);
+                this.$router.push(sessionStorage.getItem("isLoggedIn") === "true" ? "/user" : "/");
             }
             catch (e) {
                 showAlert(e.message, "danger");
