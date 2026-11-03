@@ -47,7 +47,7 @@ Bu proje, full stack geliştirme eğitimim sürecinde frontend, backend ve verit
 
 ## Kurulum
 
-**Gereksinimler:** [Node.js](https://nodejs.org) 22 LTS (22.18+) veya 24 LTS (24.12+), [XAMPP](https://www.apachefriends.org) (MySQL için), Git
+**Gereksinimler:** [Node.js](https://nodejs.org) 22 LTS (22.18+) veya 24 LTS (24.12+), MySQL veya MariaDB (ör. [XAMPP](https://www.apachefriends.org)), Git
 
 **1. Projeyi indirin**
 ```bash
@@ -60,12 +60,18 @@ cd Veloce
 2. phpMyAdmin'de (`http://localhost/phpmyadmin`) `veloce` adında yeni bir veritabanı oluşturun.
 3. `veloce` seçiliyken **İçe aktar** sekmesinden `database/veloce.sql` dosyasını içe aktarın.
 
+phpMyAdmin kullanmıyorsanız aynı işlemi terminalden yapabilirsiniz:
+```bash
+mysql -u root -p -e "CREATE DATABASE veloce CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;"
+mysql -u root -p veloce < database/veloce.sql
+```
+
 **3. Backend'i çalıştırın**
 ```bash
 cd backend
 npm install
 ```
-`backend/sql-db/.env.example` dosyasını aynı klasöre `.env` adıyla kopyalayın ve değerleri doldurun. XAMPP'ın varsayılan ayarlarında `DB_PASSWORD` boş kalabilir. `JWT_SECRET` için uzun ve tahmin edilemez bir değer yazın.
+`backend/sql-db/.env.example` dosyasını aynı klasöre `.env` adıyla kopyalayın ve değerleri doldurun. XAMPP'ın varsayılan ayarlarında `DB_USER=root` olarak kalır ve `DB_PASSWORD` boş bırakılabilir. Farklı bir MySQL/MariaDB kurulumu kullanıyorsanız kendi kullanıcı adınızı ve şifrenizi yazın. `JWT_SECRET` için uzun ve tahmin edilemez bir değer yazın.
 ```bash
 npm start
 ```
